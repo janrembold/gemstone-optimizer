@@ -4,7 +4,13 @@ A browser-based Round Brilliant geometry and optical optimization prototype. HTM
 
 **Real calculations, limited claims:** scores come from exact plane geometry and deterministic ray tracing. Fire and Global are explicitly provisional assessment models, not validated gem grades or official Brilliani Labs scores. Anisotropic materials are approximated isotropically. See [scientific definitions and limitations](docs/SCIENCE.md).
 
-## Run locally
+## Open directly (no installation)
+
+Download or clone the **complete project folder**, then double-click the root `index.html`. The material selector, exact viewer, optimization worker and exports work without a local server, including offline. Keep `css/` and `standalone/` next to `index.html`; copying only the HTML file is not sufficient.
+
+The committed `standalone/app.js` bundles the same application, Three.js and an inline Blob worker. It is generated from the modular source with `npm run build:standalone`; it contains no separate optical implementation. `npm run build` refreshes it automatically. Do not edit the generated bundle by hand.
+
+## Develop or serve over HTTP
 
 Requires Node.js 20.19+ or 22.12+ (tested with Node 24).
 
@@ -13,7 +19,7 @@ npm ci
 npm run dev
 ```
 
-Open the URL printed by Vite (normally http://127.0.0.1:5173). ES modules and workers need HTTP: do not double-click `index.html` as a `file://` URL.
+Open the URL printed by Vite (normally http://127.0.0.1:5173). This development mode uses the modular source with live reload. The regular production build in `dist/` is intended for HTTP hosting; for direct local opening use the project-root `index.html` instead.
 
 ```sh
 npm test                 # analytical, geometry, export and optimizer tests

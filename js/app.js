@@ -6,6 +6,7 @@ import { exportASC, manufacturingReport } from './export/gemcadAsc.js';
 import { canonical } from './reproducibility.js';
 import { scoringVersion } from './optics/metrics.js';
 import { StoneRenderer } from './render/stoneRenderer.js';
+import OptimizerWorker from './optimizer/worker.js?worker&inline';
 const $ = (id) => document.getElementById(id),
   cut = getCut('round-brilliant');
 let worker = null,
@@ -254,7 +255,7 @@ $('config-form').onsubmit = (e) => {
     '<div class="empty"><p>Erste Geometrien werden berechnet …</p></div>';
   showStone(null);
   worker?.terminate();
-  worker = new Worker(new URL('./optimizer/worker.js', import.meta.url), { type: 'module' });
+  worker = new OptimizerWorker();
   worker.onmessage = ({ data }) => {
     if (data.type === 'progress') onProgress(data.data);
     else if (data.type === 'done') {

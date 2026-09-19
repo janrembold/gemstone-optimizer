@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0b1420" />
     <title>Gem Cut Lab · Scientific Cut Optimizer</title>
-    <link rel="stylesheet" href="/css/app.css" />
+    <link rel="stylesheet" href="./css/app.css" />
   </head>
   <body>
     <header>
@@ -252,6 +252,22 @@
       </section>
     </main>
     <footer>GEM CUT LAB <span>Deterministic by design. Every result has a trace.</span></footer>
-    <script type="module" src="/js/app.js"></script>
+    <script>
+      if (location.protocol === 'file:') {
+        const script = document.createElement('script');
+        script.src = './standalone/app.js';
+        script.onerror = () => {
+          document.getElementById('status').textContent = 'STARTFEHLER';
+          document.getElementById('phase').textContent =
+            'Die Doppelklick-Version fehlt. Bitte den vollständigen Projektordner herunterladen oder npm run build ausführen.';
+        };
+        document.body.append(script);
+      }
+    </script>
+    <script type="module">
+      if (location.protocol !== 'file:') {
+        import('./js/app.js');
+      }
+    </script>
   </body>
 </html>

@@ -86,3 +86,13 @@ Diese Punkte sind Grenzen des Prototyps und werden nicht als bereits erledigt da
 - Remote `main` vor dem Push mit dem anfänglichen Commit abgeglichen; keine zwischenzeitlichen fremden Änderungen.
 
 Der zugehörige Implementierungscommit ist in der Git-Historie mit `Build deterministic gemstone optimizer with verified optics and ASC export` benannt.
+
+## Nachbesserung: direktes Öffnen der index.html
+
+Der Benutzer meldete eine leere Materialauswahl beim Doppelklick auf `index.html`. Ursache: Die Auswahl wurde erst durch ES-Module gefüllt, deren lokale Dateizugriffe der Browser blockiert; zusätzlich verwies der Stylesheet-Pfad auf die Dateisystemwurzel.
+
+Der Einstieg lädt unter `file://` nun ein mitgeliefertes klassisches JavaScript-Bundle, unter HTTP weiterhin die modulare Anwendung. Der Stylesheet-Pfad ist relativ. Der Optimierungsworker ist in beiden Builds eingebettet und startet als Blob-Worker, sodass keine lokalen Modul-Fetches nötig sind. Das Bundle wird aus derselben Implementierung erzeugt; physikalische Modelle, Scores und Daten bleiben unverändert.
+
+Ein zusätzlicher Browsertest öffnet ausdrücklich die lokale `index.html` bei deaktiviertem Netzwerk und prüft Materialien, Custom/Other, Three.js, vollständige Optimierung und ASC-/JSON-Download. Die fünf Ergebnis-IDs und Scores werden gegen den dokumentierten Standard-Run verglichen. Der vollständige Projektordner ist nötig; nur die einzelne HTML-Datei zu kopieren genügt nicht.
+
+Nachprüfung der Startkorrektur: Alle vier Browsertests bestanden, einschließlich direktem `file://`-Start bei ausgeschaltetem Netzwerk. Der Offline-Run lieferte dieselben fünf Konfigurations-IDs und Global-Scores wie der dokumentierte Referenzlauf. Der HTTP-Produktionsbuild funktioniert weiterhin.
