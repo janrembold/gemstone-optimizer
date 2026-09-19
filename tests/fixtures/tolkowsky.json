@@ -1,0 +1,32 @@
+{
+  "name": "Tolkowsky primary proportions, with explicitly assumed secondary facets",
+  "source": "https://www.folds.net/diamond_design/",
+  "parameters": {
+    "table": 53,
+    "crown": 34.5,
+    "pavilion": 40.75,
+    "star": 50,
+    "lower": 75,
+    "girdle": 3
+  },
+  "expectedCrownHeightPct": 16.1511025271379,
+  "expectedPavilionDepthPct": 43.08275632574671,
+  "note": "1919 primary dimensions only. Star 50%, lower 75%, and 3% 16-sided girdle are our assumptions, not a recovered T57 reference mesh.",
+  "independentEngineRegression": {
+    "material": "diamond",
+    "settings": {
+      "faceRays": 3200,
+      "tiltRays": 2200,
+      "spectralRays": 800,
+      "fullTilt": true
+    },
+    "expected": {
+      "Brilliance": 70.28999333103265,
+      "Fire": 64.83402416333287,
+      "Tilt": 90.65752288543432,
+      "Global": 78.57854369870036,
+      "Leak": 8.174684034490976
+    },
+    "note": "Frozen outputs of this independent engine after analytical validation; not published gemstone ratings."
+  }
+}

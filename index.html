@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1420" />
+    <title>Gem Cut Lab · Scientific Cut Optimizer</title>
+    <link rel="stylesheet" href="/css/app.css" />
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="#"><span class="gem-icon">◇</span> GEM CUT <strong>LAB</strong></a
+      ><span class="header-tag">COMPUTATIONAL GEM OPTICS <b>v1.0</b></span
+      ><a href="https://github.com/janrembold/gemstone-optimizer" target="_blank" rel="noreferrer"
+        >Projekt ↗</a
+      >
+    </header>
+    <main>
+      <div class="intro">
+        <div>
+          <p class="eyebrow">DESIGN / SIMULATE / VERIFY</p>
+          <h1>Form folgt Licht.</h1>
+          <p>
+            Round-Brilliant-Geometrien entwickeln und mit deterministischem Raytracing vergleichen.
+          </p>
+        </div>
+        <span class="badge">● Lokale Berechnung · Web Worker</span>
+      </div>
+      <div class="workspace">
+        <aside class="panel configuration">
+          <div class="panel-heading">
+            <h2>01 <span>Konfiguration</span></h2>
+            <span class="small">8-fach symmetrisch</span>
+          </div>
+          <form id="config-form">
+            <label
+              >Schlifffamilie<select id="cut">
+                <option value="round-brilliant">Round Brilliant</option>
+              </select></label
+            >
+            <div class="inline-facts">
+              <span>Rundiste <b>Ja</b></span
+              ><span>Culet <b>Punkt</b></span
+              ><span>Gear <b>96</b></span>
+            </div>
+            <label>Material<select id="material"></select></label
+            ><label
+              >Brechungsindex <span class="small">editierbar · nominal</span
+              ><input id="ri" type="number" min="1.0001" max="4" step="any" required
+            /></label>
+            <p id="material-note" class="notice"></p>
+            <label
+              >Optimierungsziel<select id="objective">
+                <option>Highest Global Score</option>
+              </select></label
+            >
+            <fieldset class="preset">
+              <legend>Rechenprofil</legend>
+              <label
+                ><input type="radio" name="preset" value="fast" checked /><span>Fast</span></label
+              ><label
+                ><input type="radio" name="preset" value="balanced" /><span>Balanced</span></label
+              ><label
+                ><input type="radio" name="preset" value="exhaustive" /><span
+                  >Exhaustive</span
+                ></label
+              >
+            </fieldset>
+            <details id="advanced">
+              <summary>Advanced Optimization Settings</summary>
+              <p class="small">
+                Vollständiges grobes Raster, danach lokale Verfeinerung. Exhaustive verdichtet das
+                grobe Raster; kein Beweis eines globalen Optimums.
+              </p>
+              <div class="range-scroll">
+                <table class="range-table">
+                  <thead>
+                    <tr>
+                      <th>Parameter</th>
+                      <th>Min</th>
+                      <th>Max</th>
+                      <th>Coarse</th>
+                      <th>Fine</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ranges"></tbody>
+                </table>
+              </div>
+              <label
+                >Seed<input
+                  id="seed"
+                  type="number"
+                  min="0"
+                  max="4294967295"
+                  step="1"
+                  value="1919"
+                  required /></label
+              ><label
+                >Index gear<input
+                  id="gear"
+                  type="number"
+                  min="8"
+                  max="1000"
+                  step="8"
+                  value="96"
+                  required
+              /></label>
+              <p class="small">
+                Finale Verifikation je Kandidat (450 / 550 / 650 nm + 7 Neigungen). Mindestens
+                doppelte Screening-Stichprobe.
+              </p>
+              <label
+                >Face-up rays<input
+                  id="faceRays"
+                  type="number"
+                  min="32"
+                  max="100000"
+                  step="1"
+                  value="3200"
+                  required /></label
+              ><label
+                >Rays pro Neigung<input
+                  id="tiltRays"
+                  type="number"
+                  min="32"
+                  max="100000"
+                  step="1"
+                  value="2200"
+                  required /></label
+              ><label
+                >Spektrale Ray-Tripel<input
+                  id="spectralRays"
+                  type="number"
+                  min="32"
+                  max="100000"
+                  step="1"
+                  value="800"
+                  required
+              /></label>
+            </details>
+            <button type="submit" id="start" class="primary">Optimize Cut <span>→</span></button>
+            <p id="search-size" class="small center"></p>
+          </form>
+          <div class="config-actions">
+            <button id="save-run" disabled>Run JSON ↓</button
+            ><button id="load-run">Run laden ↑</button
+            ><input id="import-file" type="file" accept="application/json,.json" hidden />
+          </div>
+        </aside>
+        <section class="main-column">
+          <section class="panel progress-panel" aria-label="Berechnungsfortschritt">
+            <div class="panel-heading">
+              <div>
+                <span id="status" class="status">BEREIT</span>
+                <h2 id="phase">Geometrie bereit. Optik noch nicht berechnet.</h2>
+              </div>
+              <span id="percent">0%</span>
+            </div>
+            <progress id="progress" max="100" value="0"></progress>
+            <div class="progress-facts">
+              <span>Kandidaten <b id="evaluated">0</b></span
+              ><span>Verbleibend ≈ <b id="remaining">—</b></span
+              ><span>Zeit <b id="elapsed">00:00</b></span
+              ><span>ETA ≈ <b id="eta">—</b></span
+              ><span>Ray-Flächentests <b id="ray-tests">0</b></span>
+            </div>
+            <p id="current-parameters" class="small">
+              Keine Scores ohne Simulation. Die Vorschau zeigt die Ausgangsgeometrie.
+            </p>
+            <p id="best" class="small"></p>
+            <div class="run-actions">
+              <button id="pause" disabled>Pause</button><button id="cancel" disabled>Cancel</button
+              ><span id="run-message" role="status" aria-live="polite"></span>
+            </div>
+          </section>
+          <div class="results-grid">
+            <section class="panel ranking">
+              <div class="panel-heading">
+                <h2>02 <span>Top 5 Varianten</span></h2>
+                <span id="census-label" class="small">noch keine Ergebnisse</span>
+              </div>
+              <div id="leaderboard" class="leaderboard">
+                <div class="empty">
+                  <span>◎</span>
+                  <h3>Raum für bessere Geometrien.</h3>
+                  <p>
+                    Starte die Optimierung, um berechnete Varianten und ihre Zielkonflikte zu
+                    vergleichen.
+                  </p>
+                </div>
+              </div>
+            </section>
+            <section class="panel viewer-panel">
+              <div class="panel-heading">
+                <h2>03 <span>Exakte Geometrie</span></h2>
+                <span id="selected-id" class="small">VORSCHAU</span>
+              </div>
+              <div id="viewer">
+                <div class="viewer-label">
+                  ROUND BRILLIANT<span>Orbit · Drag / Zoom · Scroll</span>
+                </div>
+              </div>
+              <div class="viewer-tools">
+                <button data-view="perspective">Reset</button
+                ><button data-view="crown">Krone</button
+                ><button data-view="pavilion">Pavillon</button
+                ><button data-view="side">Seite</button
+                ><label><input id="edges" type="checkbox" checked />Kanten</label
+                ><label><input id="wireframe" type="checkbox" />Wireframe</label
+                ><label><input id="transparent" type="checkbox" />Transparent</label>
+              </div>
+              <div id="stone-data" class="stone-data"></div>
+              <p class="small viewer-disclaimer">
+                3D-Vorschau: dieselben Facetten wie im Raytracer. Die Schattierung ist keine
+                optische Simulation.
+              </p>
+              <button id="export-selected" disabled>Ausgewählte Variante als ASC ↓</button>
+            </section>
+          </div>
+          <section class="panel detail-panel">
+            <div class="panel-heading">
+              <h2>04 <span>Optischer Nachweis</span></h2>
+              <span class="badge">INDEPENDENT SIMULATION</span>
+            </div>
+            <div id="optical-details" class="optical-details">
+              <p>
+                Nach der Berechnung: vollständige Energiebilanz, Tilt-Kurve, spektrale Trennung und
+                Reproduktions-ID.
+              </p>
+            </div>
+          </section>
+        </section>
+      </div>
+      <section class="method-note">
+        <h3>Physik nachvollziehbar. Bewertung transparent.</h3>
+        <p>
+          Brilliani-inspired optical scoring. Results are generated by this application's
+          independent simulation and are not official Brilliani Labs scores.
+        </p>
+        <p>
+          Snell, Totalreflexion und Fresnel-Energie an exakten ebenen Facetten. Isotropes,
+          absorptionsfreies Modell; keine Polarisationserhaltung. Fire und Global sind vorläufige
+          Bewertungsgrößen. Scintillation ist ein Facettenzahl-Proxy, keine Bewegungssimulation.
+          Keine Aussage über ein bewiesenes globales Optimum.
+        </p>
+        <a
+          href="https://github.com/janrembold/gemstone-optimizer/blob/main/docs/SCIENCE.md"
+          target="_blank"
+          rel="noreferrer"
+          >Modell, Definitionen & Grenzen ↗</a
+        >
+      </section>
+    </main>
+    <footer>GEM CUT LAB <span>Deterministic by design. Every result has a trace.</span></footer>
+    <script type="module" src="/js/app.js"></script>
+  </body>
+</html>

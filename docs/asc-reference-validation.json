@@ -1,0 +1,46 @@
+[
+  {
+    "file": "Old Single.asc",
+    "sha256": "1ec3db278d08195e41ad2f5a7b554ffc022631450f5798137437109e65b1489f",
+    "gear": 96,
+    "facetCount": 26,
+    "vertices": 32,
+    "volume": 2.2127521747886885,
+    "edges": 56,
+    "euler": 2,
+    "closed": true
+  },
+  {
+    "file": "Mazarin.asc",
+    "sha256": "3d9522a8601616233306e8da9bd5a8af66051d5fedce8efd01e570c302c72dd7",
+    "gear": 96,
+    "facetCount": 42,
+    "vertices": 80,
+    "volume": 2.186893114322985,
+    "edges": 120,
+    "euler": 2,
+    "closed": true
+  },
+  {
+    "file": "BL-Anteros.asc",
+    "sha256": "42b39558b877ae42753acb8cfd20df1e31a5b3cef23ee68344adf1fd32c55892",
+    "gear": 96,
+    "facetCount": 73,
+    "vertices": 121,
+    "volume": 1.7007938411081174,
+    "edges": 192,
+    "euler": 2,
+    "closed": true
+  },
+  {
+    "file": "BL-M5.asc",
+    "sha256": "e337156e4ad20d41435cd01239f2927956675b966881bc7c3ee7064fa113e5fb",
+    "gear": 96,
+    "facetCount": 85,
+    "vertices": 85,
+    "volume": 1.6683531699946654,
+    "edges": 168,
+    "euler": 2,
+    "closed": true
+  }
+]

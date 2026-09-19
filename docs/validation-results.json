@@ -1,0 +1,297 @@
+{
+  "generatedAt": "2026-09-19T20:37:51.254Z",
+  "runtime": "v24.14.0",
+  "fixture": {
+    "name": "Tolkowsky primary proportions, with explicitly assumed secondary facets",
+    "source": "https://www.folds.net/diamond_design/",
+    "parameters": {
+      "table": 53,
+      "crown": 34.5,
+      "pavilion": 40.75,
+      "star": 50,
+      "lower": 75,
+      "girdle": 3
+    },
+    "expectedCrownHeightPct": 16.1511025271379,
+    "expectedPavilionDepthPct": 43.08275632574671,
+    "note": "1919 primary dimensions only. Star 50%, lower 75%, and 3% 16-sided girdle are our assumptions, not a recovered T57 reference mesh."
+  },
+  "convergence": [
+    {
+      "material": "diamond",
+      "faceRays": 800,
+      "elapsedMs": 64.856042,
+      "Brilliance": 69.90601064119302,
+      "Fire": 64.01207860162368,
+      "Tilt": 89.55845866367078,
+      "Global": 78.07590976156821,
+      "Leak": 8.49308838211751,
+      "residual": 0.37313038436456253,
+      "standardError": 0.6735217972120464,
+      "meanSeparationDeg": 0.9865538000460167,
+      "energySum": 99.9999999999999,
+      "rayTests": 14064462
+    },
+    {
+      "material": "diamond",
+      "faceRays": 3200,
+      "elapsedMs": 186.08954200000002,
+      "Brilliance": 70.28999333103265,
+      "Fire": 64.83402416333287,
+      "Tilt": 90.65752288543432,
+      "Global": 78.57854369870036,
+      "Leak": 8.174684034490976,
+      "residual": 0.38153923357907926,
+      "standardError": 0.3433711895050471,
+      "meanSeparationDeg": 0.9622576401435926,
+      "energySum": 99.99999999999972,
+      "rayTests": 56119477
+    },
+    {
+      "material": "diamond",
+      "faceRays": 12800,
+      "elapsedMs": 729.6083330000001,
+      "Brilliance": 70.65989307890942,
+      "Fire": 65.07868608832158,
+      "Tilt": 89.91707624916214,
+      "Global": 78.64885389504374,
+      "Leak": 8.0338504457801,
+      "residual": 0.3883234185675105,
+      "standardError": 0.16791798308330133,
+      "meanSeparationDeg": 0.9369424942444001,
+      "energySum": 100.00000000000004,
+      "rayTests": 224437893
+    },
+    {
+      "material": "moissanite",
+      "faceRays": 800,
+      "elapsedMs": 51.98470800000007,
+      "Brilliance": 60.53896942107808,
+      "Fire": 49.688201482425626,
+      "Tilt": 91.71386373137383,
+      "Global": 71.84620138946998,
+      "Leak": 13.743125824637918,
+      "residual": 1.3723368092888715,
+      "standardError": 0.8723565416883853,
+      "meanSeparationDeg": 2.2271754821092,
+      "energySum": 99.99999999999994,
+      "rayTests": 15564028
+    },
+    {
+      "material": "moissanite",
+      "faceRays": 3200,
+      "elapsedMs": 198.046333,
+      "Brilliance": 61.83064675243227,
+      "Fire": 51.44739208322274,
+      "Tilt": 91.26594278370777,
+      "Global": 72.66486805344377,
+      "Leak": 12.749869796832714,
+      "residual": 1.1387213584300133,
+      "standardError": 0.4241929374861549,
+      "meanSeparationDeg": 2.266323553030468,
+      "energySum": 100.00000000000003,
+      "rayTests": 62283159
+    },
+    {
+      "material": "moissanite",
+      "faceRays": 12800,
+      "elapsedMs": 784.079667,
+      "Brilliance": 62.67937030495943,
+      "Fire": 52.093569898952836,
+      "Tilt": 91.16968060503957,
+      "Global": 73.13947654683611,
+      "Leak": 12.027781087092862,
+      "residual": 1.0121520732847344,
+      "standardError": 0.20397179729627338,
+      "meanSeparationDeg": 2.2328035684519985,
+      "energySum": 99.99999999999976,
+      "rayTests": 248760836
+    }
+  ],
+  "pavilionSensitivity": [
+    {
+      "pavilion": 20,
+      "return": 28.042754610065447,
+      "leak": 46.25637221731276,
+      "residual": 1.4448980754176959
+    },
+    {
+      "pavilion": 30,
+      "return": 41.12307590615004,
+      "leak": 32.750979092235575,
+      "residual": 1.3065230336563074
+    },
+    {
+      "pavilion": 38,
+      "return": 69.66651161284634,
+      "leak": 10.337103694350642,
+      "residual": 0.2876232128407968
+    },
+    {
+      "pavilion": 40.75,
+      "return": 70.28999333103265,
+      "leak": 8.174684034490976,
+      "residual": 0.38153923357907926
+    },
+    {
+      "pavilion": 44,
+      "return": 54.53754533104202,
+      "leak": 23.5468567634375,
+      "residual": 0.4818130840047561
+    },
+    {
+      "pavilion": 50,
+      "return": 35.23174154871199,
+      "leak": 43.04177387140574,
+      "residual": 0.4187823527777202
+    }
+  ],
+  "bounceConvergence": [
+    {
+      "maxBounces": 24,
+      "return": 61.50333792502069,
+      "leak": 11.943789765460359,
+      "residual": 2.465912201492687
+    },
+    {
+      "maxBounces": 48,
+      "return": 61.83064675243227,
+      "leak": 12.749869796832714,
+      "residual": 1.1387213584300133
+    },
+    {
+      "maxBounces": 96,
+      "return": 62.05070237550598,
+      "leak": 13.272283515224501,
+      "residual": 0.2640540232344441
+    },
+    {
+      "maxBounces": 192,
+      "return": 62.097552718003605,
+      "leak": 13.434647600499613,
+      "residual": 0.008218327692674755
+    }
+  ],
+  "independentSeeds": [
+    {
+      "seed": 1919,
+      "return": 70.28999333103265,
+      "leak": 8.174684034490976,
+      "standardError": 0.3433711895050471
+    },
+    {
+      "seed": 2026,
+      "return": 71.09852362025212,
+      "leak": 7.7970296850377245,
+      "standardError": 0.327680618849046
+    },
+    {
+      "seed": 42,
+      "return": 70.75646649757152,
+      "leak": 8.289177469504043,
+      "standardError": 0.33017725095220635
+    },
+    {
+      "seed": 7,
+      "return": 70.97946670387113,
+      "leak": 7.914839144898566,
+      "standardError": 0.3322167381137441
+    },
+    {
+      "seed": 12345,
+      "return": 70.84276858837148,
+      "leak": 7.8552492797961175,
+      "standardError": 0.3342965468365702
+    }
+  ],
+  "geometryMeanMs": 1.681856670000002,
+  "completeFastRun": {
+    "evaluated": 154,
+    "rejected": 0,
+    "rayTests": 579933403,
+    "elapsed": 2.1047919159999995,
+    "deterministic": true,
+    "results": [
+      {
+        "id": "GC-147db531",
+        "parameters": {
+          "table": 50,
+          "crown": 38,
+          "pavilion": 38,
+          "star": 40,
+          "lower": 67,
+          "girdle": 2
+        },
+        "Global": 73.72763324100116,
+        "Brilliance": 65.54509515958196,
+        "Fire": 53.99832361182893,
+        "Tilt": 84.98116948319516,
+        "Leak": 9.797568281960034
+      },
+      {
+        "id": "GC-f53628d9",
+        "parameters": {
+          "table": 50,
+          "crown": 38,
+          "pavilion": 38.01,
+          "star": 40,
+          "lower": 65,
+          "girdle": 2.5
+        },
+        "Global": 73.67920748693474,
+        "Brilliance": 64.99720126631495,
+        "Fire": 54.48332042580316,
+        "Tilt": 85.69853303964548,
+        "Leak": 10.536761903785388
+      },
+      {
+        "id": "GC-9faca23a",
+        "parameters": {
+          "table": 51,
+          "crown": 38,
+          "pavilion": 38,
+          "star": 40,
+          "lower": 85,
+          "girdle": 2
+        },
+        "Global": 73.63116408841164,
+        "Brilliance": 64.32079906646318,
+        "Fire": 53.258229283252284,
+        "Tilt": 87.63048255103895,
+        "Leak": 9.358365342648261
+      },
+      {
+        "id": "GC-a37d164a",
+        "parameters": {
+          "table": 50,
+          "crown": 38,
+          "pavilion": 38.25,
+          "star": 40,
+          "lower": 65,
+          "girdle": 4
+        },
+        "Global": 73.62570164487126,
+        "Brilliance": 65.21566106248933,
+        "Fire": 53.72567006015774,
+        "Tilt": 85.87491710549654,
+        "Leak": 10.581497405483896
+      },
+      {
+        "id": "GC-293ca202",
+        "parameters": {
+          "table": 50,
+          "crown": 37.98,
+          "pavilion": 38.23,
+          "star": 60,
+          "lower": 65,
+          "girdle": 2
+        },
+        "Global": 73.52711070973677,
+        "Brilliance": 64.44641310314641,
+        "Fire": 53.440213408111696,
+        "Tilt": 87.0512674765757,
+        "Leak": 10.263210984697375
+      }
+    ]
+  }
+}
