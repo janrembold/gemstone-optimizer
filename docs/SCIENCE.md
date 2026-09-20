@@ -1,6 +1,6 @@
 # Scientific model, definitions and limits
 
-Version: `round-brilliant-1` geometry, `independent-energy-1` scoring. This is an independently implemented geometrical-optics prototype. There are no invented score tables, random score perturbations or hand-adjusted target results.
+Version: `round-brilliant-1` geometry, `independent-energy-2-head-shadow` scoring. This is an independently implemented geometrical-optics prototype. There are no invented score tables, random score perturbations or hand-adjusted target results.
 
 ## 1. Geometry
 
@@ -78,7 +78,7 @@ All normalized values are between 0 and 100. Raw energy budgets, angular separat
 - **Fire (provisional):** trace the same incident rays at 450, 550 and 650 nm. Match returned branches by their **entire facet encounter history**, and require useful crown return at all three wavelengths. Weight each path by the minimum of its three returned energies. Sum this common energy only when red/blue angular separation is at least **0.25°**, divide by accepted incident triplets, multiply by 100. Also report mean separation in degrees and total matched-path energy. The threshold is an explicit observer-resolution modelling choice, not a fitted empirical constant or a validated perception law. This conservative path matcher excludes wavelength-dependent path changes and can undercount their fire. No arbitrary RI multiplier is used.
 - **Scintillation (provisional proxy):** `100 (1 − exp(−n/45))`, with `n` the number of active surface facets, **including the 16 planar girdle facets**. Hence our model has n=73 and roughly 80.25, rather than n=57 and 71.82 for the crown/pavilion facets alone. This is a geometric density proxy from the requested methodology, not a dynamic light simulation.
 - **Symmetry:** 100 for the mathematically exact declared eightfold symmetry, verified by geometry tests. No simulated manufacturing noise. Future cut generators must uphold their declared symmetry contract.
-- **Global (provisional):** `0.34 B + 0.20 F + 0.16 T + 0.10 Sc + 0.10 Sy + 0.10 (100 − Leak)`. A weighted decision score, not a physical observable.
+- **Global (provisional):** `0.95 × base + 0.05 × (100 − HeadShadow)`, where `base = 0.34 B + 0.20 F + 0.16 T + 0.10 Sc + 0.10 Sy + 0.10 (100 − Leak)`. The original component ratios are preserved within the 95% base. Five percent is a user preference, not an experimentally established constant. A weighted decision score, not a physical observable.
 - **minimumMetric:** `min(B, F, T, Sc, 100−Leak)`. Stored and displayed to expose tradeoffs. Other optimization objectives are extension points, not currently implemented modes.
 
 Census sizes, illumination/viewing cones, the tilt ratio, facet-count relationship and weights follow the requested prototype specification. The spectral fire algorithm and energy bookkeeping here are independent. Do not interpret equal numeric values as equal physical performance in two different engines.
@@ -107,7 +107,7 @@ The four supplied ASC designs are validation references only, not copied facet v
 
 ## 7. What is not physically modelled
 
-Birefringent ray splitting, crystal orientation, polarization state carried between successive interfaces, absorption/colour, fluorescence, inclusions, facet roughness, diffraction, wave interference, finite eye pupil/occlusion, true spectral source/observer response, jewelry settings, nonconvex stones and manufacturing tolerances are not implemented. The renderer is a geometry viewer with conventional GPU shading; its appearance is not the CPU optical census.
+Birefringent ray splitting, crystal orientation, polarization state carried between successive interfaces, absorption/colour, fluorescence, inclusions, facet roughness, diffraction, wave interference, finite eye pupil, detailed head geometry/skin reflection, true spectral source/observer response, jewelry settings, nonconvex stones and manufacturing tolerances are not implemented. The renderer is a geometry viewer with conventional GPU shading; its appearance is not the CPU optical census.
 
 No measurement of actual cut stones validates our Global/Fire values yet. Analytic optics, conservation, convergence and known primary proportions validate the implementation within its assumptions, not an end-to-end gemological grading system.
 
@@ -120,3 +120,13 @@ No measurement of actual cut stones validates our Global/Fire values yet. Analyt
 5. [SCHOTT optical glass](https://www.schott.com/en-us/products/optical-glass-p1000267), [N-BK7 datasheet](https://media.schott.com/api/public/content/41e799d0bf874807a0bb8e702fbb75b5?v=54856406). Sellmeier coefficients and line indices.
 
 Sources checked 2026-09-19. Supplied reference ASC originals are recorded by SHA-256 and are not republished.
+
+## Face-up observer obstruction (scoring version 2)
+
+A separate reverse-ray census uses parallel camera rays uniformly distributed over the projected stone silhouette, nominal material RI, and the same face-ray count and seed as verification. Fresnel-weighted paths terminate in a uniform unit-radiance upper hemisphere (world z > 0); the lower hemisphere is black. All exterior exit directions are considered, including the directly reflected surface branch. Optical reciprocity connects these air-to-air path throughputs to camera radiance. The existing depolarized-interface approximation still applies.
+
+A black cone centered on the observer blocks directions within a **10° half-angle**. HeadShadow is the lost radiance averaged over the silhouette, in percentage points of unit environment radiance, not a percentage of the remaining return. Unobstructed observer return = visible return + HeadShadow. Its sampling standard error is reported. These observer channels overlap the existing energy ledger and must never be added to that ledger.
+
+The half-angle convention follows the [Gem Cut Studio manual, p. 18](https://www.gemcutstudio.com/app_download/UserManual_v100.pdf). This is an independent face-up model, not a numerical reproduction of that application's tilt graph. The supplied image alone does not define the exact stone geometry, environment, sampling or polarization treatment. The original Brilliance/Tilt metrics retain their original illumination model; only the explicitly documented composite score combines them with this additional observer model.
+
+A 10-percentage-point reduction in HeadShadow improves Global by 0.5 points at otherwise equal metrics. Zero weight reproduces the previous objective exactly for numerical audits. Production defaults, angle and weight are recorded in each result's optical settings and configuration ID. Older run configurations can be imported, but must be recomputed; their scores are not reused.

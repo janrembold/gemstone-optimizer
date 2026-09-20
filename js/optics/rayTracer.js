@@ -11,6 +11,8 @@ export const opticalDefaults = {
   tiltRays: 2200,
   spectralRays: 800,
   fireResolution: 0.25,
+  headShadowAngle: 10,
+  headShadowWeight: 0.05,
 };
 export function rng(seed) {
   let x = seed >>> 0;
@@ -26,6 +28,8 @@ export function traceRay(stone, o, d, ri, observer = [0, 0, 1], options = {}) {
     out = {
       hit: false,
       useful: 0,
+      environment: 0,
+      headShadow: 0,
       leak: 0,
       crownOther: 0,
       surface: 0,
@@ -44,6 +48,18 @@ export function traceRay(stone, o, d, ri, observer = [0, 0, 1], options = {}) {
     c = -dot(f.n, d),
     F = fresnel(c, 1, ri),
     inside = refract(d, f.n, 1, ri);
+  // Reverse observer rays: unit radiance above the stone, black below it.
+  // These channels overlap the energy ledger; never add them to its sum.
+  const environmentExit = (ex, ey, ez, energy) => {
+    if (!opt.observerCensus || ez <= 0) return;
+    out.environment += energy;
+    if (
+      opt.headShadowAngle > 0 &&
+      ex * observer[0] + ey * observer[1] + ez * observer[2] >= Math.cos(rad(opt.headShadowAngle))
+    )
+      out.headShadow += energy;
+  };
+  environmentExit(d[0] + 2 * c * f.n[0], d[1] + 2 * c * f.n[1], d[2] + 2 * c * f.n[2], F.R);
   out.surface = F.R;
   out.entered = 1 - F.R;
   if (!inside) {
@@ -76,6 +92,7 @@ export function traceRay(stone, o, d, ri, observer = [0, 0, 1], options = {}) {
         ey = ri * dy + k * ny,
         ez = ri * dz + k * nz,
         e = energy * (1 - fr.R);
+      environmentExit(ex, ey, ez, e);
       if (crown(facet)) {
         if (ex * observer[0] + ey * observer[1] + ez * observer[2] >= view) {
           out.useful += e;
@@ -147,5 +164,43 @@ export function census(stone, m, count, tilt = 0, options = {}) {
     standardError:
       100 * Math.sqrt(Math.max(0, (usefulSquares - sum.useful ** 2 / hits) / (hits - 1)) / hits),
     facets: Array.from(facets, (x) => (100 * x) / hits),
+  };
+}
+
+// Optical reciprocity: parallel camera rays integrate outgoing radiance over
+// the projected stone silhouette. Entry and final medium are both air.
+export function observerCensus(stone, m, count, tilt = 0, options = {}) {
+  const opt = { ...opticalDefaults, ...options, cone: 0, observerCensus: true };
+  if (!Number.isFinite(opt.headShadowAngle) || opt.headShadowAngle < 0 || opt.headShadowAngle > 90)
+    throw new Error('Head shadow half-angle must be between 0 and 90 degrees');
+  const random = rng(opt.seed);
+  let hits = 0,
+    attempts = 0,
+    environment = 0,
+    blocked = 0,
+    squares = 0,
+    planeTests = 0;
+  while (hits < count && attempts++ < count * 100) {
+    const ray = sampleRay(stone, random, tilt, opt);
+    const r = traceRay(stone, ray.o, ray.d, m.ri, ray.observer, opt);
+    planeTests += r.planeTests;
+    if (!r.hit) continue;
+    hits++;
+    environment += r.environment;
+    blocked += r.headShadow;
+    squares += r.headShadow ** 2;
+  }
+  if (hits !== count) throw new Error('Observer aperture failed');
+  return {
+    unobstructed: (100 * environment) / hits,
+    headShadow: (100 * blocked) / hits,
+    visible: (100 * (environment - blocked)) / hits,
+    standardError:
+      hits > 1
+        ? 100 * Math.sqrt(Math.max(0, (squares - blocked ** 2 / hits) / (hits - 1)) / hits)
+        : 0,
+    halfAngle: opt.headShadowAngle,
+    hits,
+    planeTests,
   };
 }

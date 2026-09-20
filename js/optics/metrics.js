@@ -1,17 +1,24 @@
-import { census, rng, sampleRay, traceRay, opticalDefaults } from './rayTracer.js';
+import { census, observerCensus, rng, sampleRay, traceRay, opticalDefaults } from './rayTracer.js';
 import { refractiveIndex, hasDispersion, wavelengths } from './dispersion.js';
 import { dot, deg, cross, norm } from '../geometry/planes.js';
-export const scoringVersion = 'independent-energy-1';
+export const scoringVersion = 'independent-energy-2-head-shadow';
 export const scintillation = (n) => 100 * (1 - Math.exp(-n / 45));
-export function scores({ Brilliance, Fire, Tilt, Scintillation, Symmetry, Leak }) {
+export function scores(
+  { Brilliance, Fire, Tilt, Scintillation, Symmetry, Leak, HeadShadow = 0 },
+  weight = opticalDefaults.headShadowWeight,
+) {
+  if (!Number.isFinite(weight) || weight < 0 || weight > 1)
+    throw new Error('Invalid head shadow weight');
+  const UnobstructedGlobal =
+    0.34 * Brilliance +
+    0.2 * Fire +
+    0.16 * Tilt +
+    0.1 * Scintillation +
+    0.1 * Symmetry +
+    0.1 * (100 - Leak);
   return {
-    Global:
-      0.34 * Brilliance +
-      0.2 * Fire +
-      0.16 * Tilt +
-      0.1 * Scintillation +
-      0.1 * Symmetry +
-      0.1 * (100 - Leak),
+    Global: (1 - weight) * UnobstructedGlobal + weight * (100 - HeadShadow),
+    UnobstructedGlobal,
     minimumMetric: Math.min(Brilliance, Fire, Tilt, Scintillation, 100 - Leak),
   };
 }
@@ -66,6 +73,7 @@ export function spectralCensus(stone, m, options = {}) {
 }
 export function evaluate(stone, m, options = {}) {
   const opt = { ...opticalDefaults, ...options };
+  const headShadow = observerCensus(stone, m, opt.faceRays, 0, opt);
   const face = census(stone, m, opt.faceRays, 0, opt),
     angles = opt.fullTilt ? [0, 5, 10, 15, 20, 25, 30] : [0, 20];
   const tiltCurve = angles.map((angle) => ({
@@ -81,17 +89,20 @@ export function evaluate(stone, m, options = {}) {
     Scintillation: scintillation(stone.facets.length),
     Symmetry: 100,
     Leak: face.leak,
+    HeadShadow: headShadow.headShadow,
   };
   return {
     ...metrics,
-    ...scores(metrics),
+    ...scores(metrics, opt.headShadowWeight),
+    headShadow,
     face,
     fire,
     tiltCurve,
     opticalSettings: opt,
     scoringVersion,
     provisional: true,
-    rayCount: tiltCurve.reduce((s, r) => s + r.hits, 0) + fire.hits * 3,
-    rayTests: tiltCurve.reduce((s, r) => s + r.planeTests, 0) + fire.planeTests,
+    rayCount: headShadow.hits + tiltCurve.reduce((s, r) => s + r.hits, 0) + fire.hits * 3,
+    rayTests:
+      headShadow.planeTests + tiltCurve.reduce((s, r) => s + r.planeTests, 0) + fire.planeTests,
   };
 }

@@ -46,7 +46,7 @@ export function exportASC(stone, material, gear = 96, result = null) {
       `F Global ${m.Global.toFixed(4)} Brilliance ${m.Brilliance.toFixed(4)} Fire ${m.Fire.toFixed(4)}`,
     );
     lines.push(
-      `F Tilt ${m.Tilt.toFixed(4)} Leak ${m.Leak.toFixed(4)}; ${result.verified ? 'verified census' : 'screening census'}`,
+      `F Tilt ${m.Tilt.toFixed(4)} Leak ${m.Leak.toFixed(4)} HeadShadow ${m.HeadShadow?.toFixed(4) ?? 'n/a'} (${m.opticalSettings?.headShadowAngle ?? 0}deg half-angle, ${100 * (m.opticalSettings?.headShadowWeight ?? 0)}pct weight); ${result.verified ? 'verified census' : 'screening census'}`,
     );
   }
   lines.push('F Exact planes; gear indices are not rounded to whole teeth.');

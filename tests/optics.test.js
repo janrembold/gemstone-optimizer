@@ -2,13 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { generate, defaults } from '../js/cuts/roundBrilliant.js';
 import { materialModel } from '../js/materials.js';
-import { census } from '../js/optics/rayTracer.js';
+import { census, observerCensus } from '../js/optics/rayTracer.js';
 import { evaluate, scores, scintillation, spectralCensus } from '../js/optics/metrics.js';
 import { configurationID } from '../js/reproducibility.js';
 const near = (a, b, e = 1e-10) => assert.ok(Math.abs(a - b) < e, `${a} != ${b}`);
 test('Global weighted sum and minimum metric use the requested component formulas', () => {
   const m = { Brilliance: 80, Fire: 50, Tilt: 60, Scintillation: 70, Symmetry: 100, Leak: 10 };
-  const r = scores(m);
+  const r = scores(m, 0);
   near(r.Global, 72.8);
   near(r.minimumMetric, 50);
   near(
@@ -103,10 +103,39 @@ test('Tolkowsky primary-proportion fixture preserves the independently validated
   const { readFileSync } = await import('node:fs');
   const fixture = JSON.parse(readFileSync(new URL('./fixtures/tolkowsky.json', import.meta.url)));
   const regression = fixture.independentEngineRegression;
-  const result = evaluate(
-    generate(fixture.parameters),
-    materialModel(regression.material),
-    regression.settings,
-  );
+  const result = evaluate(generate(fixture.parameters), materialModel(regression.material), {
+    ...regression.settings,
+    headShadowWeight: 0,
+  });
   for (const [key, value] of Object.entries(regression.expected)) near(result[key], value, 1e-8);
+});
+
+test('Head shadow is a bounded, monotone subset of observer return with identical samples', () => {
+  const stone = generate(),
+    m = materialModel('moissanite');
+  let previous = 0;
+  for (const angle of [0, 5, 10, 20, 90]) {
+    const r = observerCensus(stone, m, 1024, 0, { headShadowAngle: angle });
+    assert.ok(r.headShadow >= previous);
+    assert.ok(r.headShadow <= r.unobstructed + 1e-10);
+    assert.ok(r.unobstructed <= 100 + 1e-10);
+    near(r.visible + r.headShadow, r.unobstructed);
+    previous = r.headShadow;
+  }
+  const all = observerCensus(stone, m, 1024, 0, { headShadowAngle: 90 });
+  near(all.headShadow, all.unobstructed);
+});
+test('Five percent preference rewards ten points less head shadow by half a Global point', () => {
+  const m = {
+    Brilliance: 80,
+    Fire: 50,
+    Tilt: 60,
+    Scintillation: 70,
+    Symmetry: 100,
+    Leak: 10,
+    HeadShadow: 20,
+  };
+  near(scores(m).Global, 0.95 * 72.8 + 0.05 * 80);
+  near(scores({ ...m, HeadShadow: 10 }).Global - scores(m).Global, 0.5);
+  near(scores(m, 0).Global, 72.8);
 });

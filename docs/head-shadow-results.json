@@ -1,0 +1,620 @@
+{
+  "scoringVersion": "independent-energy-2-head-shadow",
+  "options": {
+    "faceRays": 12800,
+    "tiltRays": 8800,
+    "spectralRays": 3200,
+    "seed": 1919
+  },
+  "halfAngle": 10,
+  "weight": 0.05,
+  "reference": {
+    "table": 50,
+    "crown": 30.02,
+    "pavilion": 40.76,
+    "star": 43,
+    "lower": 80,
+    "girdle": 2
+  },
+  "baseWinner": {
+    "parameters": {
+      "table": 50,
+      "crown": 29.52,
+      "pavilion": 40.76,
+      "star": 43,
+      "lower": 80,
+      "girdle": 2
+    },
+    "Global": 76.75581666450013,
+    "base": 76.61485380478358,
+    "HeadShadow": 20.565889000885335,
+    "Brilliance": 69.1764791148219,
+    "Tilt": 85.3461290035686,
+    "Fire": 60.40902454475893,
+    "Leak": 6.677405190409155,
+    "headShadowSE": 0.2520030048264649
+  },
+  "weightedWinner": {
+    "parameters": {
+      "table": 50,
+      "crown": 29.52,
+      "pavilion": 40.76,
+      "star": 43,
+      "lower": 80,
+      "girdle": 2
+    },
+    "Global": 76.75581666450013,
+    "base": 76.61485380478358,
+    "HeadShadow": 20.565889000885335,
+    "Brilliance": 69.1764791148219,
+    "Tilt": 85.3461290035686,
+    "Fire": 60.40902454475893,
+    "Leak": 6.677405190409155,
+    "headShadowSE": 0.2520030048264649
+  },
+  "checks": [
+    {
+      "seed": 42,
+      "results": [
+        {
+          "parameters": {
+            "table": 50,
+            "crown": 29.52,
+            "pavilion": 40.76,
+            "star": 43,
+            "lower": 80,
+            "girdle": 2
+          },
+          "Global": 76.59309608390572,
+          "base": 76.44535497424557,
+          "HeadShadow": 20.599822832551503,
+          "headShadowSE": 0.25314627258765643,
+          "Brilliance": 69.0289565945345,
+          "Tilt": 85.28284555444881
+        },
+        {
+          "parameters": {
+            "table": 50,
+            "crown": 29.52,
+            "pavilion": 40.76,
+            "star": 43,
+            "lower": 80,
+            "girdle": 2
+          },
+          "Global": 76.59309608390572,
+          "base": 76.44535497424557,
+          "HeadShadow": 20.599822832551503,
+          "headShadowSE": 0.25314627258765643,
+          "Brilliance": 69.0289565945345,
+          "Tilt": 85.28284555444881
+        }
+      ]
+    },
+    {
+      "seed": 2026,
+      "results": [
+        {
+          "parameters": {
+            "table": 50,
+            "crown": 29.52,
+            "pavilion": 40.76,
+            "star": 43,
+            "lower": 80,
+            "girdle": 2
+          },
+          "Global": 76.49053223791459,
+          "base": 76.33970352156372,
+          "HeadShadow": 20.64372215141884,
+          "headShadowSE": 0.25296776640207297,
+          "Brilliance": 69.29351635748623,
+          "Tilt": 84.21239737329499
+        },
+        {
+          "parameters": {
+            "table": 50,
+            "crown": 29.52,
+            "pavilion": 40.76,
+            "star": 43,
+            "lower": 80,
+            "girdle": 2
+          },
+          "Global": 76.49053223791459,
+          "base": 76.33970352156372,
+          "HeadShadow": 20.64372215141884,
+          "headShadowSE": 0.25296776640207297,
+          "Brilliance": 69.29351635748623,
+          "Tilt": 84.21239737329499
+        }
+      ]
+    },
+    {
+      "seed": 12345,
+      "results": [
+        {
+          "parameters": {
+            "table": 50,
+            "crown": 29.52,
+            "pavilion": 40.76,
+            "star": 43,
+            "lower": 80,
+            "girdle": 2
+          },
+          "Global": 76.65666457518891,
+          "base": 76.4888663748071,
+          "HeadShadow": 20.155169617556492,
+          "headShadowSE": 0.2514530942697452,
+          "Brilliance": 69.04834838438181,
+          "Tilt": 85.37150223598404
+        },
+        {
+          "parameters": {
+            "table": 50,
+            "crown": 29.52,
+            "pavilion": 40.76,
+            "star": 43,
+            "lower": 80,
+            "girdle": 2
+          },
+          "Global": 76.65666457518891,
+          "base": 76.4888663748071,
+          "HeadShadow": 20.155169617556492,
+          "headShadowSE": 0.2514530942697452,
+          "Brilliance": 69.04834838438181,
+          "Tilt": 85.37150223598404
+        }
+      ]
+    }
+  ],
+  "candidates": [
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 29.52,
+        "pavilion": 40.559999999999995,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.61981954313578,
+      "base": 76.5157215544394,
+      "HeadShadow": 21.40231867163308,
+      "Brilliance": 69.00513982673904,
+      "Tilt": 85.41722775307404,
+      "Fire": 60.17740459655786,
+      "Leak": 6.736692217175729,
+      "headShadowSE": 0.2677283619662741
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 29.52,
+        "pavilion": 40.66,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.69777473487825,
+      "base": 76.5902960015519,
+      "HeadShadow": 21.260129331921124,
+      "Brilliance": 69.07445246293781,
+      "Tilt": 85.12876247588197,
+      "Fire": 60.676492436817895,
+      "Leak": 6.763241946139306,
+      "headShadowSE": 0.2642215142236764
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 29.52,
+        "pavilion": 40.76,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.75581666450013,
+      "base": 76.61485380478358,
+      "HeadShadow": 20.565889000885335,
+      "Brilliance": 69.1764791148219,
+      "Tilt": 85.3461290035686,
+      "Fire": 60.40902454475893,
+      "Leak": 6.677405190409155,
+      "headShadowSE": 0.2520030048264649
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 29.52,
+        "pavilion": 40.86,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.7316671561112,
+      "base": 76.58206918691405,
+      "HeadShadow": 20.425971429143132,
+      "Brilliance": 69.27824545796351,
+      "Tilt": 85.28575538796682,
+      "Fire": 60.10067807634457,
+      "Leak": 6.6379662139943365,
+      "headShadowSE": 0.24979658114151873
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 29.52,
+        "pavilion": 40.96,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.70996494069058,
+      "base": 76.55041060593156,
+      "HeadShadow": 20.258502698887842,
+      "Brilliance": 69.25232421367488,
+      "Tilt": 85.07594741232535,
+      "Fire": 60.18645412242288,
+      "Leak": 6.702279124368116,
+      "headShadowSE": 0.2494701387718346
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 29.77,
+        "pavilion": 40.559999999999995,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.53563340790426,
+      "base": 76.4158095776802,
+      "HeadShadow": 21.187713817838816,
+      "Brilliance": 68.97047464376026,
+      "Tilt": 85.0735138697544,
+      "Fire": 59.94984837810059,
+      "Leak": 6.612895712413822,
+      "headShadowSE": 0.267689696922081
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 29.77,
+        "pavilion": 40.66,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.64501901401889,
+      "base": 76.49492780711577,
+      "HeadShadow": 20.50324805482164,
+      "Brilliance": 68.94359711778331,
+      "Tilt": 85.69567798456708,
+      "Fire": 59.92347197711268,
+      "Leak": 6.673039611461109,
+      "headShadowSE": 0.2532163671583671
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 29.77,
+        "pavilion": 40.76,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.63023380029419,
+      "base": 76.48635936284376,
+      "HeadShadow": 20.636151888147314,
+      "Brilliance": 69.03925220809079,
+      "Tilt": 85.50587708696678,
+      "Fire": 59.878914823875114,
+      "Leak": 6.691155618591074,
+      "headShadowSE": 0.2514500803065871
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 29.77,
+        "pavilion": 40.86,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.68451678259173,
+      "base": 76.5360691469618,
+      "HeadShadow": 20.494978140439525,
+      "Brilliance": 69.13088134788234,
+      "Tilt": 85.47815895236272,
+      "Fire": 60.01142719235305,
+      "Leak": 6.726272574291235,
+      "headShadowSE": 0.24894288488402105
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 29.77,
+        "pavilion": 40.96,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.69519930859349,
+      "base": 76.52534985624453,
+      "HeadShadow": 20.077661096776275,
+      "Brilliance": 68.97556077647405,
+      "Tilt": 85.72331991720402,
+      "Fire": 60.073103875173764,
+      "Leak": 6.820986448063317,
+      "headShadowSE": 0.2508766576399171
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 40.559999999999995,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.57406618605458,
+      "base": 76.46075057895065,
+      "HeadShadow": 21.27293727897056,
+      "Brilliance": 68.795367649798,
+      "Tilt": 85.76760950204348,
+      "Fire": 59.92331094979822,
+      "Leak": 6.625600075295453,
+      "headShadowSE": 0.2668069036855293
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 40.66,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.63528739314764,
+      "base": 76.48337333358745,
+      "HeadShadow": 20.478345475208883,
+      "Brilliance": 68.9083314555469,
+      "Tilt": 85.75851360615196,
+      "Fire": 59.863936531552035,
+      "Leak": 6.650147198554997,
+      "headShadowSE": 0.25283547905651726
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 40.76,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.6229411951515,
+      "base": 76.47230487414899,
+      "HeadShadow": 20.514968705800676,
+      "Brilliance": 68.84003785720691,
+      "Tilt": 85.91641651214857,
+      "Fire": 59.78910580777255,
+      "Leak": 6.631616760619326,
+      "headShadowSE": 0.2514289982656107
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 40.86,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.59877668953634,
+      "base": 76.4385849418612,
+      "HeadShadow": 20.35758010463583,
+      "Brilliance": 68.81132702749393,
+      "Tilt": 85.79090388749115,
+      "Fire": 59.86121545592907,
+      "Leak": 6.814598359334233,
+      "headShadowSE": 0.25016497623267897
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 40.96,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.52388047731196,
+      "base": 76.33983565162728,
+      "HeadShadow": 19.97926783467914,
+      "Brilliance": 68.63384650070314,
+      "Tilt": 85.94733196946832,
+      "Fire": 59.60136053057045,
+      "Leak": 6.929232551030925,
+      "headShadowSE": 0.2518928406330685
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 30.27,
+        "pavilion": 40.559999999999995,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.4796935548595,
+      "base": 76.36182282456113,
+      "HeadShadow": 21.280762569471307,
+      "Brilliance": 68.64538533125159,
+      "Tilt": 85.73506542201618,
+      "Fire": 59.7540695140367,
+      "Leak": 6.714384336566158,
+      "headShadowSE": 0.2655435443721067
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 30.27,
+        "pavilion": 40.66,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.53745013738563,
+      "base": 76.37692572638242,
+      "HeadShadow": 20.412586053553362,
+      "Brilliance": 68.69789944799481,
+      "Tilt": 86.10832174116067,
+      "Fire": 59.46514470867092,
+      "Leak": 6.761263815179928,
+      "headShadowSE": 0.2530584261267733
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 30.27,
+        "pavilion": 40.76,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.4942969426409,
+      "base": 76.34775389685649,
+      "HeadShadow": 20.721385187455198,
+      "Brilliance": 68.79722134448667,
+      "Tilt": 85.85181823337032,
+      "Fire": 59.36715322905924,
+      "Leak": 6.784287986823586,
+      "headShadowSE": 0.2505864273623539
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 30.27,
+        "pavilion": 40.86,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.46181540537603,
+      "base": 76.28763413712942,
+      "HeadShadow": 20.228740497938094,
+      "Brilliance": 68.64687026738287,
+      "Tilt": 86.01692648473583,
+      "Fire": 59.25054701789877,
+      "Leak": 6.90525270180529,
+      "headShadowSE": 0.2509720797384265
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 30.27,
+        "pavilion": 40.96,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.39004277020913,
+      "base": 76.20645533113984,
+      "HeadShadow": 20.12179588747413,
+      "Brilliance": 68.30158518811297,
+      "Tilt": 86.62631761417376,
+      "Fire": 59.07675134759145,
+      "Leak": 7.1705059586695254,
+      "headShadowSE": 0.25150459509575473
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 30.52,
+        "pavilion": 40.559999999999995,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.44781011812495,
+      "base": 76.2914741106521,
+      "HeadShadow": 20.581805739890864,
+      "Brilliance": 68.53661221414454,
+      "Tilt": 86.16759704810777,
+      "Fire": 59.29794122464556,
+      "Leak": 6.827836900456825,
+      "headShadowSE": 0.25418784926013765
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 30.52,
+        "pavilion": 40.66,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.4698681496062,
+      "base": 76.30772690532598,
+      "HeadShadow": 20.449448209069455,
+      "Brilliance": 68.58125472869723,
+      "Tilt": 86.35179325772931,
+      "Fire": 59.17669320122157,
+      "Leak": 6.869311391743548,
+      "headShadowSE": 0.25303503247881415
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 30.52,
+        "pavilion": 40.76,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.3933811144743,
+      "base": 76.2323235813056,
+      "HeadShadow": 20.546525755320364,
+      "Brilliance": 68.41949672715893,
+      "Tilt": 86.4522777340756,
+      "Fire": 59.11809003730942,
+      "Leak": 7.116936261047021,
+      "headShadowSE": 0.2511891948456546
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 30.52,
+        "pavilion": 40.86,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.3458243724147,
+      "base": 76.16381720362709,
+      "HeadShadow": 20.19603942062083,
+      "Brilliance": 68.2913705580372,
+      "Tilt": 86.66904655354429,
+      "Fire": 58.9059430092833,
+      "Leak": 7.288907117915987,
+      "headShadowSE": 0.25138185655105877
+    },
+    {
+      "parameters": {
+        "table": 50,
+        "crown": 30.52,
+        "pavilion": 40.96,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "Global": 76.52246506075848,
+      "base": 76.02929641938563,
+      "HeadShadow": 14.107330753157228,
+      "Brilliance": 68.14959669581015,
+      "Tilt": 86.95933334053913,
+      "Fire": 58.26726100876394,
+      "Leak": 7.339178686911493,
+      "headShadowSE": 0.17342697939341914
+    }
+  ]
+}

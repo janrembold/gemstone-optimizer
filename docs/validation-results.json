@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-20T08:51:45.415Z",
+  "generatedAt": "2026-09-20T09:34:14.645Z",
   "runtime": "v24.14.0",
   "fixture": {
     "name": "Tolkowsky primary proportions, with explicitly assumed secondary facets",
@@ -37,92 +37,92 @@
     {
       "material": "diamond",
       "faceRays": 800,
-      "elapsedMs": 68.49645799999999,
+      "elapsedMs": 74.889208,
       "Brilliance": 69.90601064119302,
       "Fire": 64.01207860162368,
       "Tilt": 89.55845866367078,
-      "Global": 78.07590976156821,
+      "Global": 78.47040777475476,
       "Leak": 8.49308838211751,
       "residual": 0.37313038436456253,
       "standardError": 0.6735217972120464,
       "meanSeparationDeg": 0.9865538000460167,
       "energySum": 99.9999999999999,
-      "rayTests": 14064462
+      "rayTests": 16431580
     },
     {
       "material": "diamond",
       "faceRays": 3200,
-      "elapsedMs": 195.318125,
+      "elapsedMs": 214.034333,
       "Brilliance": 70.28999333103265,
       "Fire": 64.83402416333287,
       "Tilt": 90.65752288543432,
-      "Global": 78.57854369870036,
+      "Global": 78.92301555727329,
       "Leak": 8.174684034490976,
       "residual": 0.38153923357907926,
       "standardError": 0.3433711895050471,
       "meanSeparationDeg": 0.9622576401435926,
       "energySum": 99.99999999999972,
-      "rayTests": 56119477
+      "rayTests": 65529079
     },
     {
       "material": "diamond",
       "faceRays": 12800,
-      "elapsedMs": 741.6501249999999,
+      "elapsedMs": 852.6925829999999,
       "Brilliance": 70.65989307890942,
       "Fire": 65.07868608832158,
       "Tilt": 89.91707624916214,
-      "Global": 78.64885389504374,
+      "Global": 79.00210561205517,
       "Leak": 8.0338504457801,
       "residual": 0.3883234185675105,
       "standardError": 0.16791798308330133,
       "meanSeparationDeg": 0.9369424942444001,
       "energySum": 100.00000000000004,
-      "rayTests": 224437893
+      "rayTests": 261993939
     },
     {
       "material": "moissanite",
       "faceRays": 800,
-      "elapsedMs": 51.294167000000016,
+      "elapsedMs": 56.63966699999992,
       "Brilliance": 60.53896942107808,
       "Fire": 49.688201482425626,
       "Tilt": 91.71386373137383,
-      "Global": 71.84620138946998,
+      "Global": 72.9577445343723,
       "Leak": 13.743125824637918,
       "residual": 1.3723368092888715,
       "standardError": 0.8723565416883853,
       "meanSeparationDeg": 2.2271754821092,
       "energySum": 99.99999999999994,
-      "rayTests": 15564028
+      "rayTests": 18183799
     },
     {
       "material": "moissanite",
       "faceRays": 3200,
-      "elapsedMs": 198.4809580000001,
+      "elapsedMs": 228.19929100000013,
       "Brilliance": 61.83064675243227,
       "Fire": 51.44739208322274,
       "Tilt": 91.26594278370777,
-      "Global": 72.66486805344377,
+      "Global": 73.70898251554189,
       "Leak": 12.749869796832714,
       "residual": 1.1387213584300133,
       "standardError": 0.4241929374861549,
       "meanSeparationDeg": 2.266323553030468,
       "energySum": 100.00000000000003,
-      "rayTests": 62283159
+      "rayTests": 72724324
     },
     {
       "material": "moissanite",
       "faceRays": 12800,
-      "elapsedMs": 824.4024159999999,
+      "elapsedMs": 903.6999160000003,
       "Brilliance": 62.67937030495943,
       "Fire": 52.093569898952836,
       "Tilt": 91.16968060503957,
-      "Global": 73.13947654683611,
+      "Global": 74.1595745270745,
       "Leak": 12.027781087092862,
       "residual": 1.0121520732847344,
       "standardError": 0.20397179729627338,
       "meanSeparationDeg": 2.2328035684519985,
       "energySum": 99.99999999999976,
-      "rayTests": 248760836
+      "rayTests": 290627459
     }
   ],
   "pavilionSensitivity": [
@@ -221,82 +221,18 @@
       "standardError": 0.3342965468365702
     }
   ],
-  "geometryMeanMs": 1.8002370800000016,
+  "geometryMeanMs": 1.7015099999999983,
   "completeFastRun": {
     "evaluated": 168,
     "rejected": 0,
-    "rayTests": 1438931711,
+    "rayTests": 1688849454,
     "verifiedCount": 22,
-    "screeningBestGlobal": 76.48984517045774,
-    "elapsed": 5.00591475,
+    "screeningBestGlobal": 76.66836389262153,
+    "elapsed": 5.5971163750000015,
     "deterministic": true,
     "results": [
       {
-        "id": "GC-405385a5",
-        "parameters": {
-          "table": 50,
-          "crown": 38,
-          "pavilion": 38,
-          "star": 40,
-          "lower": 67,
-          "girdle": 2
-        },
-        "Global": 73.72763324100116,
-        "Brilliance": 65.54509515958196,
-        "Fire": 53.99832361182893,
-        "Tilt": 84.98116948319516,
-        "Leak": 9.797568281960034
-      },
-      {
-        "id": "GC-d8fb79dd",
-        "parameters": {
-          "table": 50,
-          "crown": 38,
-          "pavilion": 38.01,
-          "star": 40,
-          "lower": 65,
-          "girdle": 2.5
-        },
-        "Global": 73.67920748693474,
-        "Brilliance": 64.99720126631495,
-        "Fire": 54.48332042580316,
-        "Tilt": 85.69853303964548,
-        "Leak": 10.536761903785388
-      },
-      {
-        "id": "GC-5e69b460",
-        "parameters": {
-          "table": 50,
-          "crown": 37.98,
-          "pavilion": 38.27,
-          "star": 60,
-          "lower": 65,
-          "girdle": 2
-        },
-        "Global": 73.64370542913497,
-        "Brilliance": 64.25301371205514,
-        "Fire": 53.693933719601276,
-        "Tilt": 87.83185850002685,
-        "Leak": 10.19609212150611
-      },
-      {
-        "id": "GC-85bdf386",
-        "parameters": {
-          "table": 50,
-          "crown": 37.99,
-          "pavilion": 38.26,
-          "star": 60,
-          "lower": 65,
-          "girdle": 2
-        },
-        "Global": 73.6383859114866,
-        "Brilliance": 64.18497151640946,
-        "Fire": 53.66292894019345,
-        "Tilt": 87.99997568541826,
-        "Leak": 10.224921770605157
-      },
-      {
-        "id": "GC-fda06b6c",
+        "id": "GC-f8a862d2",
         "parameters": {
           "table": 51,
           "crown": 38,
@@ -305,11 +241,75 @@
           "lower": 85,
           "girdle": 2
         },
-        "Global": 73.63116408841164,
+        "Global": 74.37257431534113,
         "Brilliance": 64.32079906646318,
         "Fire": 53.258229283252284,
         "Tilt": 87.63048255103895,
         "Leak": 9.358365342648261
+      },
+      {
+        "id": "GC-ca055193",
+        "parameters": {
+          "table": 50,
+          "crown": 38,
+          "pavilion": 38,
+          "star": 40,
+          "lower": 67,
+          "girdle": 2
+        },
+        "Global": 74.1751317847639,
+        "Brilliance": 65.54509515958196,
+        "Fire": 53.99832361182893,
+        "Tilt": 84.98116948319516,
+        "Leak": 9.797568281960034
+      },
+      {
+        "id": "GC-144e4e3a",
+        "parameters": {
+          "table": 50,
+          "crown": 38,
+          "pavilion": 38,
+          "star": 40,
+          "lower": 65,
+          "girdle": 2.5
+        },
+        "Global": 74.05874563140856,
+        "Brilliance": 65.0050360733084,
+        "Fire": 54.05389527861571,
+        "Tilt": 85.9336368479245,
+        "Leak": 10.548587497793795
+      },
+      {
+        "id": "GC-a342c977",
+        "parameters": {
+          "table": 50,
+          "crown": 38,
+          "pavilion": 38,
+          "star": 60,
+          "lower": 65,
+          "girdle": 2
+        },
+        "Global": 74.03860231228535,
+        "Brilliance": 64.57191733456372,
+        "Fire": 52.77671893089797,
+        "Tilt": 87.16806843474386,
+        "Leak": 10.381889204871541
+      },
+      {
+        "id": "GC-901b1d65",
+        "parameters": {
+          "table": 50,
+          "crown": 38,
+          "pavilion": 38,
+          "star": 40,
+          "lower": 65,
+          "girdle": 2
+        },
+        "Global": 74.02289801369922,
+        "Brilliance": 65.21737427659338,
+        "Fire": 53.67400901039377,
+        "Tilt": 85.54945285676287,
+        "Leak": 10.211967412343137
       }
     ]
   }

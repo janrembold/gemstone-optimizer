@@ -89,3 +89,7 @@ js/reproducibility.js        canonical configuration hash
 scripts/                     repeatable scientific/reference validation
 tests/                      unit, regression and browser tests
 ```
+
+### Face-up Head Shadow
+
+The ranking now includes a 5% preference for less observer obstruction (10° half-angle), calculated using a separate reverse-ray census. Cards show `HEAD ↓`; the optical report shows blocked, unobstructed and visible observer return plus sampling uncertainty. See [the model and limitations](docs/SCIENCE.md#face-up-observer-obstruction-scoring-version-2). Existing run configurations require recomputation under the new scoring version.

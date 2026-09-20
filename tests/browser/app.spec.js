@@ -158,6 +158,8 @@ test('Exhaustive keeps one verified census and never replaces a better live lead
   );
   expect(finalBest).toBe(Math.max(...leaders));
   await expect(page.locator('#best')).toContainText('3200 / 2200 / 800');
+  await expect(page.locator('.candidate').first()).toContainText('HEAD ↓');
+  await expect(page.locator('#optical-details')).toContainText('Face-up Head Shadow:');
   const [json] = await Promise.all([
     page.waitForEvent('download'),
     page.locator('#save-run').click(),

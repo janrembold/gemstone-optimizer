@@ -4,7 +4,7 @@ import { fresnel, refract, reflect, criticalAngle } from '../js/optics/fresnel.j
 import { rad, dot, norm, intersectPlanes } from '../js/geometry/planes.js';
 import { raySolid } from '../js/geometry/intersections.js';
 import { buildPolyhedron } from '../js/geometry/meshBuilder.js';
-import { traceRay, census } from '../js/optics/rayTracer.js';
+import { traceRay, census, observerCensus } from '../js/optics/rayTracer.js';
 import { refractiveIndex } from '../js/optics/dispersion.js';
 import { materialModel } from '../js/materials.js';
 const near = (a, b, e = 1e-10) => assert.ok(Math.abs(a - b) < e, `${a} != ${b}`);
@@ -116,4 +116,14 @@ test('Custom has no default RI; Other keeps only the entered index, no inherited
   assert.equal(model.sellmeier, undefined);
   assert.equal(model.anisotropic, null);
   assert.equal(refractiveIndex(model, 450), refractiveIndex(model, 650));
+});
+
+test('Reverse observer slab matches analytic reflected radiance, including surface reflection', () => {
+  const r = observerCensus(slab(), { ri: 1.5 }, 128, 0, { energyCutoff: 1e-14, maxBounces: 128 });
+  near(r.unobstructed, (100 * 2 * 0.04) / 1.04, 1e-10);
+  near(r.headShadow, r.unobstructed);
+  near(r.visible, 0);
+  const open = observerCensus(slab(), { ri: 1.5 }, 128, 0, { headShadowAngle: 0 });
+  near(open.headShadow, 0);
+  near(open.visible, open.unobstructed);
 });

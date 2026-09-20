@@ -75,7 +75,7 @@ export async function optimize(config, { progress = () => {}, checkpoint = async
     gridSize(ranges, preset.coarseFactor) +
     preset.regions * preset.passes * ranges.length * 2 +
     preset.regions * 5 ** cut.precisionKeys.length;
-  const rayWork = (o) => o.faceRays + (o.fullTilt ? 6 : 1) * o.tiltRays + 3 * o.spectralRays;
+  const rayWork = (o) => 2 * o.faceRays + (o.fullTilt ? 6 : 1) * o.tiltRays + 3 * o.spectralRays;
   let evaluated = 0,
     rejected = 0,
     screeningProcessed = 0,
