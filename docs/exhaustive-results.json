@@ -1,0 +1,938 @@
+{
+  "generatedAt": "2026-09-20T08:57:20.308Z",
+  "config": {
+    "cutId": "round-brilliant",
+    "material": {
+      "id": "moissanite",
+      "name": "Moissanite",
+      "ri": 2.65,
+      "dispersion": 0.104,
+      "anisotropic": true,
+      "source": "https://www.gia.edu/gems-gemology/winter-1997-synthetic-moissanite-nassau0",
+      "customRI": false,
+      "referenceRI": 2.65
+    },
+    "gear": 96,
+    "seed": 1919,
+    "preset": "exhaustive",
+    "ranges": [
+      {
+        "key": "table",
+        "min": 50,
+        "max": 62,
+        "coarse": 6,
+        "fine": 1
+      },
+      {
+        "key": "crown",
+        "min": 30,
+        "max": 38,
+        "coarse": 4,
+        "fine": 0.5
+      },
+      {
+        "key": "pavilion",
+        "min": 38,
+        "max": 44,
+        "coarse": 3,
+        "fine": 0.25
+      },
+      {
+        "key": "star",
+        "min": 40,
+        "max": 60,
+        "coarse": 10,
+        "fine": 2
+      },
+      {
+        "key": "lower",
+        "min": 65,
+        "max": 85,
+        "coarse": 10,
+        "fine": 2
+      },
+      {
+        "key": "girdle",
+        "min": 2,
+        "max": 4,
+        "coarse": 1,
+        "fine": 0.5
+      }
+    ],
+    "verification": {
+      "faceRays": 3200,
+      "tiltRays": 2200,
+      "spectralRays": 800
+    }
+  },
+  "searchVersion": "verified-archive-2",
+  "phases": [
+    {
+      "phase": 1,
+      "evaluated": 0,
+      "verifiedBest": null,
+      "screeningBest": null
+    },
+    {
+      "phase": 2,
+      "evaluated": 15642,
+      "verifiedBest": 76.47764014782435,
+      "screeningBest": 77.127403049701
+    },
+    {
+      "phase": 3,
+      "evaluated": 15642,
+      "verifiedBest": 76.47764014782435,
+      "screeningBest": 77.127403049701
+    },
+    {
+      "phase": 4,
+      "evaluated": 15811,
+      "verifiedBest": 76.53993468187137,
+      "screeningBest": 77.44147437743372
+    },
+    {
+      "phase": 5,
+      "evaluated": 15953,
+      "verifiedBest": 76.53993468187137,
+      "screeningBest": 77.67581625758142
+    }
+  ],
+  "liveImprovements": [
+    {
+      "phase": 1,
+      "evaluated": 2,
+      "Global": 70.17683240125169,
+      "id": "GC-a7d8e545"
+    },
+    {
+      "phase": 1,
+      "evaluated": 4,
+      "Global": 70.37510044007436,
+      "id": "GC-2696058e"
+    },
+    {
+      "phase": 1,
+      "evaluated": 10,
+      "Global": 70.45821574491616,
+      "id": "GC-6600d8f3"
+    },
+    {
+      "phase": 1,
+      "evaluated": 133,
+      "Global": 75.16638052226338,
+      "id": "GC-cbdb41af"
+    },
+    {
+      "phase": 1,
+      "evaluated": 135,
+      "Global": 75.27433824277077,
+      "id": "GC-17019dc4"
+    },
+    {
+      "phase": 1,
+      "evaluated": 139,
+      "Global": 75.52851475061655,
+      "id": "GC-21ba0361"
+    },
+    {
+      "phase": 1,
+      "evaluated": 144,
+      "Global": 75.65434832767114,
+      "id": "GC-f4e0ce70"
+    },
+    {
+      "phase": 1,
+      "evaluated": 146,
+      "Global": 75.7372742608207,
+      "id": "GC-c0a5496f"
+    },
+    {
+      "phase": 1,
+      "evaluated": 267,
+      "Global": 76.36294266782542,
+      "id": "GC-da9fd163"
+    },
+    {
+      "phase": 1,
+      "evaluated": 272,
+      "Global": 76.4033368274931,
+      "id": "GC-a8daf6ea"
+    },
+    {
+      "phase": 1,
+      "evaluated": 276,
+      "Global": 76.43839844474047,
+      "id": "GC-30bcf64c"
+    },
+    {
+      "phase": 1,
+      "evaluated": 278,
+      "Global": 76.47764014782435,
+      "id": "GC-ef803a77"
+    },
+    {
+      "phase": 3,
+      "evaluated": 15646,
+      "Global": 76.52234676025189,
+      "id": "GC-fa669ec3"
+    },
+    {
+      "phase": 3,
+      "evaluated": 15704,
+      "Global": 76.53993468187137,
+      "id": "GC-8bfbc697"
+    },
+    {
+      "phase": 5,
+      "evaluated": 15959,
+      "Global": 76.54956842041753,
+      "id": "GC-81bf2339"
+    },
+    {
+      "phase": 5,
+      "evaluated": 15964,
+      "Global": 76.64433412397295,
+      "id": "GC-8ef82035"
+    }
+  ],
+  "verifiedRankingMonotonic": true,
+  "identicalCensusThroughout": true,
+  "baseline": {
+    "phasePeaks": {
+      "1": 77.127403049701,
+      "2": 77.127403049701,
+      "3": 77.44147437743372,
+      "4": 77.67581625758142,
+      "5": 76.64433412397295
+    },
+    "finalBest": 76.64433412397295,
+    "statistics": {
+      "evaluated": 15943,
+      "rejected": 0,
+      "rayTests": 61843347853,
+      "elapsed": 230.402749625
+    }
+  },
+  "statistics": {
+    "evaluated": 15970,
+    "rejected": 0,
+    "rayTests": 63523115382,
+    "verifiedCount": 39,
+    "screeningBestGlobal": 77.67581625758142,
+    "elapsed": 237.89778412500002
+  },
+  "verificationHistory": [
+    {
+      "id": "GC-a7d8e545",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 38,
+        "star": 40,
+        "lower": 65,
+        "girdle": 2
+      },
+      "phase": 1,
+      "reason": "screening-record",
+      "screeningGlobal": 70.32544441278591,
+      "verifiedGlobal": 70.17683240125169,
+      "delta": -0.14861201153422599
+    },
+    {
+      "id": "GC-2696058e",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 38,
+        "star": 40,
+        "lower": 65,
+        "girdle": 2.5
+      },
+      "phase": 1,
+      "reason": "initial-ranking",
+      "screeningGlobal": 70.1553545865787,
+      "verifiedGlobal": 70.37510044007436,
+      "delta": 0.21974585349566667
+    },
+    {
+      "id": "GC-2182da80",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 38,
+        "star": 40,
+        "lower": 65,
+        "girdle": 3
+      },
+      "phase": 1,
+      "reason": "initial-ranking",
+      "screeningGlobal": 69.93600341240848,
+      "verifiedGlobal": 70.36251103402464,
+      "delta": 0.4265076216161532
+    },
+    {
+      "id": "GC-d36872df",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 38,
+        "star": 40,
+        "lower": 65,
+        "girdle": 3.5
+      },
+      "phase": 1,
+      "reason": "screening-record",
+      "screeningGlobal": 70.54737373592809,
+      "verifiedGlobal": 70.26747646287146,
+      "delta": -0.27989727305663337
+    },
+    {
+      "id": "GC-6600d8f3",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 38,
+        "star": 40,
+        "lower": 65,
+        "girdle": 4
+      },
+      "phase": 1,
+      "reason": "initial-ranking",
+      "screeningGlobal": 69.82253719968755,
+      "verifiedGlobal": 70.45821574491616,
+      "delta": 0.6356785452286147
+    },
+    {
+      "id": "GC-3bb5c568",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 38,
+        "star": 50,
+        "lower": 65,
+        "girdle": 2
+      },
+      "phase": 1,
+      "reason": "screening-record",
+      "screeningGlobal": 70.9889392356858,
+      "verifiedGlobal": 70.29185153176434,
+      "delta": -0.6970877039214685
+    },
+    {
+      "id": "GC-cbdb41af",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 39.5,
+        "star": 40,
+        "lower": 65,
+        "girdle": 2
+      },
+      "phase": 1,
+      "reason": "screening-record",
+      "screeningGlobal": 75.11204539797797,
+      "verifiedGlobal": 75.16638052226338,
+      "delta": 0.05433512428541576
+    },
+    {
+      "id": "GC-17019dc4",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 39.5,
+        "star": 40,
+        "lower": 65,
+        "girdle": 2.5
+      },
+      "phase": 1,
+      "reason": "screening-record",
+      "screeningGlobal": 75.49544778006924,
+      "verifiedGlobal": 75.27433824277077,
+      "delta": -0.22110953729847438
+    },
+    {
+      "id": "GC-21ba0361",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 39.5,
+        "star": 40,
+        "lower": 65,
+        "girdle": 4
+      },
+      "phase": 1,
+      "reason": "screening-record",
+      "screeningGlobal": 75.93819752805624,
+      "verifiedGlobal": 75.52851475061655,
+      "delta": -0.4096827774396843
+    },
+    {
+      "id": "GC-4f061f01",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 39.5,
+        "star": 40,
+        "lower": 70,
+        "girdle": 2
+      },
+      "phase": 1,
+      "reason": "screening-record",
+      "screeningGlobal": 76.04806866836046,
+      "verifiedGlobal": 75.52749755938025,
+      "delta": -0.5205711089802065
+    },
+    {
+      "id": "GC-f4e0ce70",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 39.5,
+        "star": 40,
+        "lower": 70,
+        "girdle": 3
+      },
+      "phase": 1,
+      "reason": "screening-record",
+      "screeningGlobal": 76.29600783293134,
+      "verifiedGlobal": 75.65434832767114,
+      "delta": -0.6416595052601934
+    },
+    {
+      "id": "GC-c0a5496f",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 39.5,
+        "star": 40,
+        "lower": 70,
+        "girdle": 3.5
+      },
+      "phase": 1,
+      "reason": "screening-record",
+      "screeningGlobal": 76.30575516791191,
+      "verifiedGlobal": 75.7372742608207,
+      "delta": -0.5684809070912138
+    },
+    {
+      "id": "GC-da9fd163",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 41,
+        "star": 40,
+        "lower": 65,
+        "girdle": 3.5
+      },
+      "phase": 1,
+      "reason": "screening-record",
+      "screeningGlobal": 76.32432127731055,
+      "verifiedGlobal": 76.36294266782542,
+      "delta": 0.03862139051487645
+    },
+    {
+      "id": "GC-a8daf6ea",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 41,
+        "star": 40,
+        "lower": 70,
+        "girdle": 3
+      },
+      "phase": 1,
+      "reason": "screening-record",
+      "screeningGlobal": 76.36847060499406,
+      "verifiedGlobal": 76.4033368274931,
+      "delta": 0.034866222499047694
+    },
+    {
+      "id": "GC-30bcf64c",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 41,
+        "star": 40,
+        "lower": 75,
+        "girdle": 2
+      },
+      "phase": 1,
+      "reason": "screening-record",
+      "screeningGlobal": 76.47227551668918,
+      "verifiedGlobal": 76.43839844474047,
+      "delta": -0.033877071948708704
+    },
+    {
+      "id": "GC-ef803a77",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 41,
+        "star": 40,
+        "lower": 75,
+        "girdle": 2.5
+      },
+      "phase": 1,
+      "reason": "screening-record",
+      "screeningGlobal": 76.5503966892004,
+      "verifiedGlobal": 76.47764014782435,
+      "delta": -0.07275654137605159
+    },
+    {
+      "id": "GC-30efd7a0",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 41,
+        "star": 40,
+        "lower": 80,
+        "girdle": 2
+      },
+      "phase": 1,
+      "reason": "screening-record",
+      "screeningGlobal": 77.127403049701,
+      "verifiedGlobal": 76.37505979484851,
+      "delta": -0.7523432548524909
+    },
+    {
+      "id": "GC-fa669ec3",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 40.75,
+        "star": 40,
+        "lower": 80,
+        "girdle": 2
+      },
+      "phase": 3,
+      "reason": "screening-record",
+      "screeningGlobal": 77.16471002024993,
+      "verifiedGlobal": 76.52234676025189,
+      "delta": -0.6423632599980351
+    },
+    {
+      "id": "GC-60338b6c",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 41,
+        "star": 40,
+        "lower": 82,
+        "girdle": 3.5
+      },
+      "phase": 3,
+      "reason": "screening-record",
+      "screeningGlobal": 77.39072863379378,
+      "verifiedGlobal": 76.4697960107637,
+      "delta": -0.9209326230300832
+    },
+    {
+      "id": "GC-8bfbc697",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 41,
+        "star": 40,
+        "lower": 82,
+        "girdle": 3
+      },
+      "phase": 3,
+      "reason": "screening-record",
+      "screeningGlobal": 77.44147437743372,
+      "verifiedGlobal": 76.53993468187137,
+      "delta": -0.9015396955623487
+    },
+    {
+      "id": "GC-10167a78",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 40.99,
+        "star": 40,
+        "lower": 82,
+        "girdle": 3
+      },
+      "phase": 4,
+      "reason": "screening-record",
+      "screeningGlobal": 77.4591155848972,
+      "verifiedGlobal": 76.49651793032119,
+      "delta": -0.9625976545760153
+    },
+    {
+      "id": "GC-92544c2c",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 41.01,
+        "star": 40,
+        "lower": 82,
+        "girdle": 3
+      },
+      "phase": 4,
+      "reason": "screening-record",
+      "screeningGlobal": 77.67581625758142,
+      "verifiedGlobal": 76.5266270595324,
+      "delta": -1.1491891980490152
+    },
+    {
+      "id": "GC-f266ac0d",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 41.02,
+        "star": 40,
+        "lower": 82,
+        "girdle": 3
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.62835239574855,
+      "verifiedGlobal": 76.48288725849483,
+      "delta": -1.1454651372537228
+    },
+    {
+      "id": "GC-829ffe8e",
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 41.01,
+        "star": 40,
+        "lower": 82,
+        "girdle": 3
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.56725800433911,
+      "verifiedGlobal": 76.4782507956074,
+      "delta": -1.089007208731715
+    },
+    {
+      "id": "GC-0ef57211",
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 40.98,
+        "star": 40,
+        "lower": 82,
+        "girdle": 3
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.55295114279772,
+      "verifiedGlobal": 76.45568536932504,
+      "delta": -1.0972657734726852
+    },
+    {
+      "id": "GC-62d6ac45",
+      "parameters": {
+        "table": 50,
+        "crown": 30.01,
+        "pavilion": 41.01,
+        "star": 40,
+        "lower": 82,
+        "girdle": 3
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.53698653613691,
+      "verifiedGlobal": 76.51916434749451,
+      "delta": -1.0178221886423984
+    },
+    {
+      "id": "GC-e5534084",
+      "parameters": {
+        "table": 50,
+        "crown": 30.01,
+        "pavilion": 41.02,
+        "star": 40,
+        "lower": 82,
+        "girdle": 3
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.52900951213736,
+      "verifiedGlobal": 76.4491401711628,
+      "delta": -1.079869340974568
+    },
+    {
+      "id": "GC-81bf2339",
+      "parameters": {
+        "table": 50,
+        "crown": 30.01,
+        "pavilion": 40.99,
+        "star": 40,
+        "lower": 82,
+        "girdle": 3
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.50609484104966,
+      "verifiedGlobal": 76.54956842041753,
+      "delta": -0.9565264206321302
+    },
+    {
+      "id": "GC-e5ae81f9",
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 41,
+        "star": 40,
+        "lower": 82,
+        "girdle": 3
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.4644134506899,
+      "verifiedGlobal": 76.54319101077247,
+      "delta": -0.9212224399174289
+    },
+    {
+      "id": "GC-88e51e53",
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 41.02,
+        "star": 40,
+        "lower": 82,
+        "girdle": 3
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.45622975680595,
+      "verifiedGlobal": 76.39526559650956,
+      "delta": -1.0609641602963933
+    },
+    {
+      "id": "GC-c105c90a",
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 41.02,
+        "star": 40,
+        "lower": 82,
+        "girdle": 3.5
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.44936947356022,
+      "verifiedGlobal": 76.48964952073254,
+      "delta": -0.9597199528276832
+    },
+    {
+      "id": "GC-ece91b87",
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 40.73,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2.5
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.40817905296775,
+      "verifiedGlobal": 76.50881767663441,
+      "delta": -0.8993613763333457
+    },
+    {
+      "id": "GC-8ef82035",
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 40.76,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.40404829329839,
+      "verifiedGlobal": 76.64433412397295,
+      "delta": -0.7597141693254343
+    },
+    {
+      "id": "GC-cfe5fdf5",
+      "parameters": {
+        "table": 51,
+        "crown": 30.02,
+        "pavilion": 41.01,
+        "star": 42,
+        "lower": 83,
+        "girdle": 4
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.39608550901544,
+      "verifiedGlobal": 76.35065066916066,
+      "delta": -1.045434839854778
+    },
+    {
+      "id": "GC-73dd880b",
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 40.52,
+        "star": 40,
+        "lower": 78,
+        "girdle": 2
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.29446914697122,
+      "verifiedGlobal": 76.58537670684201,
+      "delta": -0.7090924401292114
+    },
+    {
+      "id": "GC-95ecc671",
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 40.76,
+        "star": 40,
+        "lower": 84,
+        "girdle": 2.5
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.2922983405853,
+      "verifiedGlobal": 76.43359910762628,
+      "delta": -0.858699232959026
+    },
+    {
+      "id": "GC-17c4b459",
+      "parameters": {
+        "table": 53,
+        "crown": 30.02,
+        "pavilion": 39.49,
+        "star": 50,
+        "lower": 65,
+        "girdle": 4
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.23631338273621,
+      "verifiedGlobal": 76.22770771534358,
+      "delta": -1.0086056673926294
+    },
+    {
+      "id": "GC-2e39b9aa",
+      "parameters": {
+        "table": 50,
+        "crown": 30.01,
+        "pavilion": 40.76,
+        "star": 47,
+        "lower": 80,
+        "girdle": 2
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.04904272735698,
+      "verifiedGlobal": 76.51104614964814,
+      "delta": -0.5379965777088387
+    },
+    {
+      "id": "GC-5e038884",
+      "parameters": {
+        "table": 53,
+        "crown": 30.01,
+        "pavilion": 39.49,
+        "star": 50,
+        "lower": 70,
+        "girdle": 4
+      },
+      "phase": 5,
+      "reason": "final-shortlist",
+      "screeningGlobal": 77.03736467637822,
+      "verifiedGlobal": 76.49378307646688,
+      "delta": -0.5435815999113345
+    }
+  ],
+  "results": [
+    {
+      "id": "GC-8ef82035",
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 40.76,
+        "star": 43,
+        "lower": 80,
+        "girdle": 2
+      },
+      "screeningGlobal": 77.40404829329839,
+      "Global": 76.64433412397295,
+      "Brilliance": 68.84232960958485,
+      "Fire": 59.898988554804276,
+      "Tilt": 86.8746438718269,
+      "Leak": 6.672045490013439
+    },
+    {
+      "id": "GC-73dd880b",
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 40.52,
+        "star": 40,
+        "lower": 78,
+        "girdle": 2
+      },
+      "screeningGlobal": 77.29446914697122,
+      "Global": 76.58537670684201,
+      "Brilliance": 68.8889646108385,
+      "Fire": 60.07751576424961,
+      "Tilt": 86.02525515275555,
+      "Leak": 6.418211133961782
+    },
+    {
+      "id": "GC-81bf2339",
+      "parameters": {
+        "table": 50,
+        "crown": 30.01,
+        "pavilion": 40.99,
+        "star": 40,
+        "lower": 82,
+        "girdle": 3
+      },
+      "screeningGlobal": 77.50609484104966,
+      "Global": 76.54956842041753,
+      "Brilliance": 68.53691161894278,
+      "Fire": 59.39595555631723,
+      "Tilt": 87.89129630164034,
+      "Leak": 7.201859248112114
+    },
+    {
+      "id": "GC-e5ae81f9",
+      "parameters": {
+        "table": 50,
+        "crown": 30.02,
+        "pavilion": 41,
+        "star": 40,
+        "lower": 82,
+        "girdle": 3
+      },
+      "screeningGlobal": 77.4644134506899,
+      "Global": 76.54319101077247,
+      "Brilliance": 68.44802805622083,
+      "Fire": 59.50353086581115,
+      "Tilt": 87.85334087591517,
+      "Leak": 7.117851169135475
+    },
+    {
+      "id": "GC-8bfbc697",
+      "parameters": {
+        "table": 50,
+        "crown": 30,
+        "pavilion": 41,
+        "star": 40,
+        "lower": 82,
+        "girdle": 3
+      },
+      "screeningGlobal": 77.44147437743372,
+      "Global": 76.53993468187137,
+      "Brilliance": 68.45711450960768,
+      "Fire": 59.464848000395044,
+      "Tilt": 87.92606571221798,
+      "Leak": 7.220302406914137
+    }
+  ]
+}

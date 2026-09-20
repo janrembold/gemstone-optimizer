@@ -2,7 +2,7 @@
 
 A browser-based Round Brilliant geometry and optical optimization prototype. HTML, ES modules, Three.js and a Web Worker; no application backend. Select Moissanite (RI 2.65), click **Optimize Cut**, inspect the five independently evaluated finalists, and export the selected geometry as GemCad ASC.
 
-**Real calculations, limited claims:** scores come from exact plane geometry and deterministic ray tracing. Fire and Global are explicitly provisional assessment models, not validated gem grades or official Brilliani Labs scores. Anisotropic materials are approximated isotropically. See [scientific definitions and limitations](docs/SCIENCE.md).
+**Real calculations, limited claims:** scores come from exact plane geometry and deterministic ray tracing. Fire and Global are explicitly provisional assessment models, not validated gem grades or certified laboratory ratings. Anisotropic materials are approximated isotropically. See [scientific definitions and limitations](docs/SCIENCE.md).
 
 ## Open directly (no installation)
 
@@ -43,22 +43,23 @@ Standard materials (including Moissanite, Diamant and Saphir) automatically fill
 - Representative material RI data with sources, editable RI, anisotropy flags, Cauchy B–G fits / N-BK7 Sellmeier model. Missing dispersion is disclosed instead of invented.
 - Snell, critical angle, total internal reflection, unpolarized Fresnel energy splitting, epsilon offsets, bounded tracing and explicit residual energy.
 - Face-up energy census, 0–30° tilt curve, matched-path spectral angular separation, all requested score components and minimum metric.
-- Complete coarse grid, diverse candidate selection, local fine search, 0.01° angular neighborhoods, identical higher-census final verification. Pause/resume/cancel and live Top 5.
+- Complete coarse grid, diverse candidate selection, local fine search, 0.01° angular neighborhoods, identical higher-census final verification. Pause/resume/cancel and live Top 5 using the same high census as the final ranking.
 - Exact Three.js mesh from traced facet polygons, orbit/zoom, four camera views, edges, wireframe, transparency.
 - Dynamic ASC tiers with exact normal distances, signed facet angles, index positions, labels and scores; generated files are geometrically roundtrip-tested.
 - Canonical configuration IDs, downloadable run JSON, load-and-recompute workflow.
 
-All candidates in a final ranking use the same material, seed, ray counts and optical settings. Scores from screening and verification are never mixed. The high census verifies numerical estimates, **not** physical accuracy against measured gems or a proven global optimum.
+All candidates in the live and final rankings use the same material, seed, ray counts and optical settings. Screening estimates are displayed separately. Every new screening record is checked immediately; verified leaders stay in an archive through completion. The final shortlist retains the raw top K as well as diverse regions. Every estimate correction is retained in the run JSON. The high census verifies numerical estimates, **not** physical accuracy against measured gems or a proven global optimum.
 
 ## Reproducible evidence
 
 - [PROJECT_LOG.md](PROJECT_LOG.md): implementation history, decisions, file map and follow-up work.
 - [SCIENCE.md](docs/SCIENCE.md): mathematical definitions, metric denominators, sources and approximations.
 - [VALIDATION.md](docs/VALIDATION.md): actual convergence, parameter perturbation, bounce residual, repeated-seed and optimizer results.
+- [EXHAUSTIVE-VALIDATION.md](docs/EXHAUSTIVE-VALIDATION.md): full-profile score-history audit and the screening/verification fix.
 - [ASC-REFERENCES.md](docs/ASC-REFERENCES.md): validation against the four supplied ASC references.
 - [example-run.json](docs/example-run.json): full default Moissanite run. In the app choose **Run laden**, select this file and click **Optimize Cut** to recalculate it.
 
-No external reference score is used as an optimization target or a calibration constant. We do not claim to reproduce Brilliani's ratings. Native GemCad opening is not tested in this environment; ASC syntax, plane reconstruction and the supplied reference files are tested.
+No external reference score is used as an optimization target or a calibration constant. Scores are not calibrated to any external rating system. Native GemCad opening is not tested in this environment; ASC syntax, plane reconstruction and the supplied reference files are tested.
 
 ## Architecture and adding a cut
 

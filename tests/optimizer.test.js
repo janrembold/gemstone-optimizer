@@ -74,3 +74,45 @@ test('Final verification cannot silently use fewer samples than screening', () =
   c.verification.faceRays = 64;
   assert.throws(() => validateConfig(c), /at least twice/);
 });
+
+test('Live verified ranking never decreases and survives the final phase without a census switch', async () => {
+  const leaders = [],
+    settings = new Set(),
+    phaseFiveLeaders = [];
+  const run = await optimize(config(), {
+    progress: (p) => {
+      assert.ok(p.leaderboard.every((r) => r.verified));
+      if (!p.leaderboard.length) return;
+      const best = p.leaderboard[0];
+      leaders.push(best.metrics.Global);
+      settings.add(JSON.stringify(best.metrics.opticalSettings));
+      if (p.phase === 5) phaseFiveLeaders.push(best.metrics.Global);
+      assert.equal(p.verificationSettings.faceRays, 128);
+      assert.equal(p.screeningSettings.faceRays, 64);
+    },
+  });
+  assert.ok(leaders.length > 5);
+  assert.equal(settings.size, 1);
+  for (let i = 1; i < leaders.length; i++) assert.ok(leaders[i] >= leaders[i - 1]);
+  assert.equal(run.results[0].metrics.Global, Math.max(...leaders));
+  assert.ok(phaseFiveLeaders.length > 0);
+  assert.ok(
+    run.verificationHistory.some((r) => r.delta < 0),
+    'Honest downward estimate corrections remain visible in the audit',
+  );
+  assert.ok(
+    run.results.every((r) => r.screening && r.reproduction.searchVersion === run.searchVersion),
+  );
+});
+
+test('Finalist selection retains the raw top K even when diversity prefers distant, weaker candidates', async () => {
+  const { selectFinalists } = await import('../js/optimizer/searchSpace.js');
+  const candidates = Array.from({ length: 10 }, (_, i) => ({
+    id: String(i),
+    parameters: { x: i < 5 ? i * 0.001 : i },
+    metrics: { Global: 90 - i },
+  }));
+  const selected = selectFinalists(candidates, [{ key: 'x', min: 0, max: 10 }], 5);
+  for (let i = 0; i < 5; i++) assert.ok(selected.some((r) => r.id === String(i)));
+  assert.ok(selected.some((r) => Number(r.id) >= 5));
+});

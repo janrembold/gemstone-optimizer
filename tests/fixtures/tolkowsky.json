@@ -11,7 +11,7 @@
   },
   "expectedCrownHeightPct": 16.1511025271379,
   "expectedPavilionDepthPct": 43.08275632574671,
-  "note": "1919 primary dimensions only. Star 50%, lower 75%, and 3% 16-sided girdle are our assumptions, not a recovered T57 reference mesh.",
+  "note": "1919 primary dimensions only. Star 50%, lower 75%, and 3% 16-sided girdle are our assumptions, not a recovered complete historical reference mesh.",
   "independentEngineRegression": {
     "material": "diamond",
     "settings": {

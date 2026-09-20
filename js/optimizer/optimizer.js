@@ -1,7 +1,7 @@
 import { refractiveIndex, wavelengths } from '../optics/dispersion.js';
 import { getCut } from '../cuts/cutDefinition.js';
 import { evaluate, opticalDefaultsForRun } from './runEvaluation.js';
-import { presets, grid, gridSize, neighbors, diverse } from './searchSpace.js';
+import { presets, grid, gridSize, neighbors, diverse, selectFinalists } from './searchSpace.js';
 import { configurationID, canonical } from '../reproducibility.js';
 export function validateConfig(config) {
   const cut = getCut(config.cutId),
@@ -59,56 +59,123 @@ export function validateConfig(config) {
     throw new Error('Seed must be an unsigned 32-bit integer');
   return { cut, preset };
 }
+export const searchVersion = 'verified-archive-2';
+
 export async function optimize(config, { progress = () => {}, checkpoint = async () => {} } = {}) {
-  const { cut, preset } = validateConfig(config),
-    ranges = config.ranges,
+  const { cut, preset } = validateConfig(config);
+  const ranges = config.ranges,
     seen = new Set(),
     pool = [],
-    verified = [],
+    verified = new Map();
+  const verificationHistory = [],
     started = performance.now();
-  let evaluated = 0,
-    rejected = 0,
-    processed = 0,
-    rayTests = 0,
-    phase = 1,
-    phaseLabel = 'Coarse grid',
-    current = null;
-  let total =
+  const low = opticalDefaultsForRun(config, preset, false);
+  const high = opticalDefaultsForRun(config, preset, true);
+  const screeningUpper =
     gridSize(ranges, preset.coarseFactor) +
     preset.regions * preset.passes * ranges.length * 2 +
-    preset.regions * 5 ** cut.precisionKeys.length +
-    preset.finalists;
-  const low = opticalDefaultsForRun(config, preset, false),
-    high = opticalDefaultsForRun(config, preset, true);
-  const emit = (force = false) =>
+    preset.regions * 5 ** cut.precisionKeys.length;
+  const rayWork = (o) => o.faceRays + (o.fullTilt ? 6 : 1) * o.tiltRays + 3 * o.spectralRays;
+  let evaluated = 0,
+    rejected = 0,
+    screeningProcessed = 0,
+    rayTests = 0;
+  let phase = 1,
+    phaseLabel = 'Coarse grid',
+    current = null;
+  let screeningBest = null,
+    verificationPending = 2 * preset.finalists;
+  let verificationInFlight = false;
+  const rankedVerified = () =>
+    [...verified.values()].sort(
+      (a, b) => b.metrics.Global - a.metrics.Global || a.id.localeCompare(b.id),
+    );
+  const emit = (force = false) => {
+    const screenRemaining = phase === 5 ? 0 : Math.max(0, screeningUpper - screeningProcessed);
+    const remaining = screenRemaining + verificationPending + Number(verificationInFlight);
+    const doneWork = screeningProcessed * rayWork(low) + verified.size * rayWork(high);
+    const remainingWork =
+      screenRemaining * rayWork(low) +
+      (verificationPending + Number(verificationInFlight)) * rayWork(high);
+    const elapsed = (performance.now() - started) / 1000;
     progress({
       phase,
       phaseLabel,
       evaluated,
       rejected,
-      processed,
-      total,
-      remaining: Math.max(0, total - processed),
-      percent: Math.min(100, (100 * processed) / total),
-      elapsed: (performance.now() - started) / 1000,
-      eta: processed
-        ? (((performance.now() - started) / 1000) * (total - processed)) / processed
-        : null,
+      processed: screeningProcessed + verified.size,
+      total: screeningProcessed + verified.size + remaining,
+      remaining,
+      percent: doneWork ? (100 * doneWork) / (doneWork + remainingWork) : 0,
+      elapsed,
+      eta: doneWork ? (elapsed * remainingWork) / doneWork : null,
       current,
       rayTests,
-      leaderboard:
-        phase === 5
-          ? [...verified].sort((a, b) => b.metrics.Global - a.metrics.Global).slice(0, 5)
-          : diverse(pool, ranges, 5),
-      verified: phase === 5,
+      leaderboard: rankedVerified().slice(0, 5),
+      verified: true,
+      screeningBest: screeningBest
+        ? { parameters: screeningBest.parameters, metrics: screeningBest.metrics }
+        : null,
+      screeningSettings: low,
+      verificationSettings: high,
+      verifiedCount: verified.size,
+      verificationInFlight,
       force,
     });
-  async function calculate(parameters, final = false) {
+  };
+  function makeResult(parameters, stone, metrics, optical, final) {
+    const reproduction = {
+      topologyVersion: cut.version,
+      scoringVersion: metrics.scoringVersion,
+      searchVersion,
+      material: config.material,
+      parameters,
+      gear: config.gear,
+      optical,
+      optimizer: config,
+    };
+    return {
+      id: configurationID(reproduction),
+      parameters,
+      derived: stone.derived,
+      metrics,
+      reproduction,
+      verified: final,
+    };
+  }
+  async function verify(candidate, reason) {
+    const key = canonical(candidate.parameters);
+    if (verified.has(key)) return verified.get(key);
+    verificationInFlight = true;
+    current = candidate.parameters;
+    emit(true);
+    await checkpoint();
+    const stone = cut.generate(candidate.parameters);
+    const metrics = evaluate(stone, config.material, high);
+    rayTests += metrics.rayTests;
+    evaluated++;
+    const result = makeResult(candidate.parameters, stone, metrics, high, true);
+    result.screening = { Global: candidate.metrics.Global, opticalSettings: low };
+    verified.set(key, result);
+    verificationHistory.push({
+      id: result.id,
+      parameters: result.parameters,
+      phase,
+      reason,
+      screeningGlobal: candidate.metrics.Global,
+      verifiedGlobal: metrics.Global,
+      delta: metrics.Global - candidate.metrics.Global,
+    });
+    verificationInFlight = false;
+    emit(true);
+    return result;
+  }
+  async function screen(parameters) {
     await checkpoint();
     current = parameters;
-    processed++;
+    screeningProcessed++;
     const key = canonical(parameters);
-    if (!final && seen.has(key)) {
+    if (seen.has(key)) {
       emit();
       return;
     }
@@ -121,37 +188,23 @@ export async function optimize(config, { progress = () => {}, checkpoint = async
       emit();
       return;
     }
-    const optical = final ? high : low,
-      metrics = evaluate(stone, config.material, optical);
+    const metrics = evaluate(stone, config.material, low);
     rayTests += metrics.rayTests;
     evaluated++;
-    const reproduction = {
-      topologyVersion: cut.version,
-      scoringVersion: metrics.scoringVersion,
-      material: config.material,
-      parameters,
-      gear: config.gear,
-      optical,
-      optimizer: config,
-    };
-    const result = {
-      id: configurationID(reproduction),
-      parameters,
-      derived: stone.derived,
-      metrics,
-      reproduction,
-      verified: final,
-    };
-    if (final) verified.push(result);
-    else {
-      pool.push(result);
-      pool.sort((a, b) => b.metrics.Global - a.metrics.Global);
-      if (pool.length > 120) pool.length = 120;
-    }
+    const candidate = makeResult(parameters, stone, metrics, low, false);
+    const record = !screeningBest || metrics.Global > screeningBest.metrics.Global;
+    if (record) screeningBest = candidate;
+    pool.push(candidate);
+    pool.sort((a, b) => b.metrics.Global - a.metrics.Global || a.id.localeCompare(b.id));
+    if (pool.length > 120) pool.length = 120;
     emit();
+    // Every search record is checked immediately at the unchanged final census.
+    // The first five seed a useful live ranking. Never replace this archive with screening data.
+    if (record || verified.size < 5)
+      await verify(candidate, record ? 'screening-record' : 'initial-ranking');
   }
   emit(true);
-  for (const p of grid(ranges, preset.coarseFactor)) await calculate(p);
+  for (const parameters of grid(ranges, preset.coarseFactor)) await screen(parameters);
   if (pool.length < 5)
     throw new Error(
       `Only ${pool.length} valid distinct geometries; broaden the ranges. ${rejected} invalid combinations rejected.`,
@@ -165,27 +218,40 @@ export async function optimize(config, { progress = () => {}, checkpoint = async
   phaseLabel = 'Fine neighborhood search';
   emit(true);
   for (let pass = 0; pass < preset.passes; pass++) {
-    for (const c of centers) for (const p of neighbors(c.parameters, ranges)) await calculate(p);
+    for (const center of centers)
+      for (const p of neighbors(center.parameters, ranges)) await screen(p);
     centers = diverse(pool, ranges, preset.regions);
   }
   phase = 4;
   phaseLabel = 'Angular precision · 0.01°';
   emit(true);
-  for (const c of centers)
-    for (const p of neighbors(c.parameters, ranges, cut.precisionKeys)) await calculate(p);
-  const finalists = diverse(pool, ranges, preset.finalists);
+  for (const center of centers)
+    for (const p of neighbors(center.parameters, ranges, cut.precisionKeys)) await screen(p);
+  // Protect the raw top K AND add diverse regions. Diversity cannot remove a top-ranked candidate.
+  const finalists = selectFinalists(pool, ranges, preset.finalists);
+  const pending = finalists.filter((c) => !verified.has(canonical(c.parameters)));
   phase = 5;
-  phaseLabel = 'Independent high-census verification';
-  total = processed + finalists.length;
+  phaseLabel = 'Complete verification · same census';
+  verificationPending = pending.length;
   emit(true);
-  for (const c of finalists) await calculate(c.parameters, true);
-  const results = verified
-    .sort((a, b) => b.metrics.Global - a.metrics.Global || a.id.localeCompare(b.id))
-    .slice(0, 5);
+  for (const candidate of pending) {
+    verificationPending--;
+    await verify(candidate, 'final-shortlist');
+  }
+  const results = rankedVerified().slice(0, 5);
   emit(true);
   return {
     config,
+    searchVersion,
     results,
-    statistics: { evaluated, rejected, rayTests, elapsed: (performance.now() - started) / 1000 },
+    verificationHistory,
+    statistics: {
+      evaluated,
+      rejected,
+      rayTests,
+      verifiedCount: verified.size,
+      screeningBestGlobal: screeningBest.metrics.Global,
+      elapsed: (performance.now() - started) / 1000,
+    },
   };
 }

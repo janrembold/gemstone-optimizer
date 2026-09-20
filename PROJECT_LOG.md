@@ -10,7 +10,7 @@ Die Anwendung erzeugt echte geschlossene Round-Brilliant-Geometrien, simuliert L
 
 ## Umsetzungsschritte
 
-1. Prompt und leeres Repository geprüft; offizielle GemCad-Dokumentation, Brilliani-Methodik, Tolkowsky sowie Materialdaten von GIA und SCHOTT recherchiert.
+1. Prompt und leeres Repository geprüft; offizielle GemCad-Dokumentation, Bewertungsdefinitionen aus dem App-Prompt, Tolkowsky sowie Materialdaten von GIA und SCHOTT recherchiert.
 2. Achtfach symmetrische Schnittgeometrie aus Halbräumen aufgebaut. Primäre Parameter: Tafel, Kronenwinkel, Pavillonwinkel, Sternlänge, untere Rundistenlänge, Rundistendicke. Alle weiteren Ebenen werden aus Meetpoints abgeleitet.
 3. Geschlossenheit, Ebenenlage, Orientierung, Kanteninzidenz, Euler-Charakteristik und Volumen geprüft. Die Oberfläche besteht aus 57 optischen Kronen-/Pavillonfacetten plus 16 echten Rundistenfacetten.
 4. Isolierte Materialdatenbank mit Quellen, anisotropen Kennzeichen, editierbarem RI und spektralem Modell ergänzt. Fehlende Dispersionsdaten werden offengelegt, nicht geschätzt.
@@ -96,3 +96,15 @@ Der Einstieg lädt unter `file://` nun ein mitgeliefertes klassisches JavaScript
 Ein zusätzlicher Browsertest öffnet ausdrücklich die lokale `index.html` bei deaktiviertem Netzwerk und prüft Materialien, Custom/Other, Three.js, vollständige Optimierung und ASC-/JSON-Download. Die fünf Ergebnis-IDs und Scores werden gegen den dokumentierten Standard-Run verglichen. Der vollständige Projektordner ist nötig; nur die einzelne HTML-Datei zu kopieren genügt nicht.
 
 Nachprüfung der Startkorrektur: Alle vier Browsertests bestanden, einschließlich direktem `file://`-Start bei ausgeschaltetem Netzwerk. Der Offline-Run lieferte dieselben fünf Konfigurations-IDs und Global-Scores wie der dokumentierte Referenzlauf. Der HTTP-Produktionsbuild funktioniert weiterhin.
+
+## 20. September 2026 – verlässlicher Bewertungsverlauf
+
+Der Benutzer meldete sinkende Endwerte gegenüber der Live-Anzeige im Exhaustive-Profil. Der alte Ablauf zeigte zunächst kleine Suchstichproben (384 Face-up / 192 Tilt / 192 Spektraltripel), ersetzte die Rangliste erst in Phase 5 durch größere Messungen (3.200 / 2.200 / 800) und wählte Finalisten vorrangig nach geometrischer Vielfalt. In einem vollständigen Standardlauf ließ sich das Verhalten reproduzieren: Suchspitze 77,675816, finales Maximum 76,644334. Dies waren unterschiedliche Stichproben, keine vergleichbare Konvergenzkurve. Vielfaltsauswahl konnte zudem nahe Spitzenkandidaten auslassen.
+
+Korrektur: Neue Suchrekorde werden direkt mit dem unveränderten hohen Census geprüft. Eine dauerhafte Sammlung aller geprüften Varianten speist sowohl Live- als auch Endrangliste. Geprüfte Spitzenwerte können dadurch nicht beim Phasenwechsel verloren gehen. Die Finalauswahl vereinigt die numerischen Top-K mit unterschiedlichen Regionen; Vielfalt verdrängt keine Top-K-Geometrie. Suchschätzungen bleiben separat sichtbar, und jede echte Auf-/Abkorrektur steht im JSON-Prüfverlauf. Kein Score wurde nach oben geklemmt oder durch eine optimistische Schätzung ersetzt. Raytracer, Materialdaten und Scoreformeln wurden nicht verändert.
+
+Die Optimierung hat die neue Suchversion `verified-archive-2`; deshalb ändern sich Konfigurations-IDs und gegebenenfalls die gefundenen Finalisten. Physikalische Regressionstests bleiben unverändert. Tests prüfen monotone verifizierte Bestwerte, einen konstanten Census, das Beibehalten eng benachbarter Spitzenkandidaten sowie den sichtbaren Exhaustive-Verlauf im Browser. Der vollständige Gegenlauf wird in `docs/EXHAUSTIVE-VALIDATION.md` mit Rohdaten dokumentiert.
+
+Auf Wunsch des Benutzers wurden außerdem die bisherigen Markenverweise aus Website, Quellcode und aktueller Dokumentation entfernt. Der numerische Validierungsbericht beschreibt nun ausschließlich unsere eigenen Rechnungen und ihre Grenzen. Die historische Git-Historie bleibt unverändert.
+
+Ergebnis der vollständigen Exhaustive-Nachprüfung: 15.625 grobe Rasterpunkte, insgesamt 15.970 optische Auswertungen und 39 mit hohem Census geprüfte Geometrien. Der verifizierte Live-Bestwert entwickelte sich von 76,477640 über 76,539935 zum finalen 76,644334, ohne Rückgang. Die weiterhin separat protokollierte Suchschätzung erreichte 77,675816. Der finale Bestwert bleibt physikalisch korrekt unverändert gegenüber der früheren gründlichen Endprüfung; es wurden keine Scores künstlich verbessert. Alle 38 Rechen-/Strukturtests und fünf Browsertests bestanden. Der Namensscan fand keine verbliebenen Verweise in aktuellen Quellen, Dokumentation, Offline-Bundle oder Web-Build.

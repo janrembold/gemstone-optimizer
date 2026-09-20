@@ -116,3 +116,51 @@ test('Standard materials fill RI; Custom clears it; typing switches to Other wit
   await expect(page.locator('#ri')).toHaveValue('2.65');
   expect(errors).toEqual([]);
 });
+
+test('Exhaustive keeps one verified census and never replaces a better live leader at completion', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await page.locator('[name=preset][value=exhaustive]').check();
+  await page.locator('#advanced summary').click();
+  const fixed = {
+    table: [56, 58],
+    crown: [34, 35],
+    pavilion: [40, 41],
+    star: [50, 50],
+    lower: [75, 75],
+    girdle: [3, 3],
+  };
+  for (const [key, [min, max]] of Object.entries(fixed)) {
+    await page.locator(`[data-key=${key}][data-field=min]`).fill(String(min));
+    await page.locator(`[data-key=${key}][data-field=max]`).fill(String(max));
+    await page.locator(`[data-key=${key}][data-field=coarse]`).fill('1');
+  }
+  await page.evaluate(() => {
+    window.verifiedLeaders = [];
+    const target = document.getElementById('best');
+    new MutationObserver(() => {
+      const match = target.textContent.match(/Verifizierter Bestwert: Global ([\d.]+)/);
+      if (match) window.verifiedLeaders.push(Number(match[1]));
+    }).observe(target, { childList: true, subtree: true, characterData: true });
+  });
+  await page.locator('#start').click();
+  await expect(page.locator('#screening-best')).toContainText('384 Face-up-Strahlen');
+  await expect(page.locator('#status')).toHaveText('VERIFIZIERT', { timeout: 150000 });
+  const leaders = await page.evaluate(() => window.verifiedLeaders);
+  expect(leaders.length).toBeGreaterThan(2);
+  for (let i = 1; i < leaders.length; i++)
+    expect(leaders[i]).toBeGreaterThanOrEqual(leaders[i - 1]);
+  const finalBest = Number(
+    (await page.locator('.candidate-head strong').first().textContent())
+      .replace('GLOBAL*', '')
+      .trim(),
+  );
+  expect(finalBest).toBe(Math.max(...leaders));
+  await expect(page.locator('#best')).toContainText('3200 / 2200 / 800');
+  const [json] = await Promise.all([
+    page.waitForEvent('download'),
+    page.locator('#save-run').click(),
+  ]);
+  await json.saveAs('test-results/exhaustive-run.json');
+});

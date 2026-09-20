@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T20:37:51.254Z",
+  "generatedAt": "2026-09-20T08:51:45.415Z",
   "runtime": "v24.14.0",
   "fixture": {
     "name": "Tolkowsky primary proportions, with explicitly assumed secondary facets",
@@ -14,13 +14,30 @@
     },
     "expectedCrownHeightPct": 16.1511025271379,
     "expectedPavilionDepthPct": 43.08275632574671,
-    "note": "1919 primary dimensions only. Star 50%, lower 75%, and 3% 16-sided girdle are our assumptions, not a recovered T57 reference mesh."
+    "note": "1919 primary dimensions only. Star 50%, lower 75%, and 3% 16-sided girdle are our assumptions, not a recovered complete historical reference mesh.",
+    "independentEngineRegression": {
+      "material": "diamond",
+      "settings": {
+        "faceRays": 3200,
+        "tiltRays": 2200,
+        "spectralRays": 800,
+        "fullTilt": true
+      },
+      "expected": {
+        "Brilliance": 70.28999333103265,
+        "Fire": 64.83402416333287,
+        "Tilt": 90.65752288543432,
+        "Global": 78.57854369870036,
+        "Leak": 8.174684034490976
+      },
+      "note": "Frozen outputs of this independent engine after analytical validation; not published gemstone ratings."
+    }
   },
   "convergence": [
     {
       "material": "diamond",
       "faceRays": 800,
-      "elapsedMs": 64.856042,
+      "elapsedMs": 68.49645799999999,
       "Brilliance": 69.90601064119302,
       "Fire": 64.01207860162368,
       "Tilt": 89.55845866367078,
@@ -35,7 +52,7 @@
     {
       "material": "diamond",
       "faceRays": 3200,
-      "elapsedMs": 186.08954200000002,
+      "elapsedMs": 195.318125,
       "Brilliance": 70.28999333103265,
       "Fire": 64.83402416333287,
       "Tilt": 90.65752288543432,
@@ -50,7 +67,7 @@
     {
       "material": "diamond",
       "faceRays": 12800,
-      "elapsedMs": 729.6083330000001,
+      "elapsedMs": 741.6501249999999,
       "Brilliance": 70.65989307890942,
       "Fire": 65.07868608832158,
       "Tilt": 89.91707624916214,
@@ -65,7 +82,7 @@
     {
       "material": "moissanite",
       "faceRays": 800,
-      "elapsedMs": 51.98470800000007,
+      "elapsedMs": 51.294167000000016,
       "Brilliance": 60.53896942107808,
       "Fire": 49.688201482425626,
       "Tilt": 91.71386373137383,
@@ -80,7 +97,7 @@
     {
       "material": "moissanite",
       "faceRays": 3200,
-      "elapsedMs": 198.046333,
+      "elapsedMs": 198.4809580000001,
       "Brilliance": 61.83064675243227,
       "Fire": 51.44739208322274,
       "Tilt": 91.26594278370777,
@@ -95,7 +112,7 @@
     {
       "material": "moissanite",
       "faceRays": 12800,
-      "elapsedMs": 784.079667,
+      "elapsedMs": 824.4024159999999,
       "Brilliance": 62.67937030495943,
       "Fire": 52.093569898952836,
       "Tilt": 91.16968060503957,
@@ -204,16 +221,18 @@
       "standardError": 0.3342965468365702
     }
   ],
-  "geometryMeanMs": 1.681856670000002,
+  "geometryMeanMs": 1.8002370800000016,
   "completeFastRun": {
-    "evaluated": 154,
+    "evaluated": 168,
     "rejected": 0,
-    "rayTests": 579933403,
-    "elapsed": 2.1047919159999995,
+    "rayTests": 1438931711,
+    "verifiedCount": 22,
+    "screeningBestGlobal": 76.48984517045774,
+    "elapsed": 5.00591475,
     "deterministic": true,
     "results": [
       {
-        "id": "GC-147db531",
+        "id": "GC-405385a5",
         "parameters": {
           "table": 50,
           "crown": 38,
@@ -229,7 +248,7 @@
         "Leak": 9.797568281960034
       },
       {
-        "id": "GC-f53628d9",
+        "id": "GC-d8fb79dd",
         "parameters": {
           "table": 50,
           "crown": 38,
@@ -245,7 +264,39 @@
         "Leak": 10.536761903785388
       },
       {
-        "id": "GC-9faca23a",
+        "id": "GC-5e69b460",
+        "parameters": {
+          "table": 50,
+          "crown": 37.98,
+          "pavilion": 38.27,
+          "star": 60,
+          "lower": 65,
+          "girdle": 2
+        },
+        "Global": 73.64370542913497,
+        "Brilliance": 64.25301371205514,
+        "Fire": 53.693933719601276,
+        "Tilt": 87.83185850002685,
+        "Leak": 10.19609212150611
+      },
+      {
+        "id": "GC-85bdf386",
+        "parameters": {
+          "table": 50,
+          "crown": 37.99,
+          "pavilion": 38.26,
+          "star": 60,
+          "lower": 65,
+          "girdle": 2
+        },
+        "Global": 73.6383859114866,
+        "Brilliance": 64.18497151640946,
+        "Fire": 53.66292894019345,
+        "Tilt": 87.99997568541826,
+        "Leak": 10.224921770605157
+      },
+      {
+        "id": "GC-fda06b6c",
         "parameters": {
           "table": 51,
           "crown": 38,
@@ -259,38 +310,6 @@
         "Fire": 53.258229283252284,
         "Tilt": 87.63048255103895,
         "Leak": 9.358365342648261
-      },
-      {
-        "id": "GC-a37d164a",
-        "parameters": {
-          "table": 50,
-          "crown": 38,
-          "pavilion": 38.25,
-          "star": 40,
-          "lower": 65,
-          "girdle": 4
-        },
-        "Global": 73.62570164487126,
-        "Brilliance": 65.21566106248933,
-        "Fire": 53.72567006015774,
-        "Tilt": 85.87491710549654,
-        "Leak": 10.581497405483896
-      },
-      {
-        "id": "GC-293ca202",
-        "parameters": {
-          "table": 50,
-          "crown": 37.98,
-          "pavilion": 38.23,
-          "star": 60,
-          "lower": 65,
-          "girdle": 2
-        },
-        "Global": 73.52711070973677,
-        "Brilliance": 64.44641310314641,
-        "Fire": 53.440213408111696,
-        "Tilt": 87.0512674765757,
-        "Leak": 10.263210984697375
       }
     ]
   }

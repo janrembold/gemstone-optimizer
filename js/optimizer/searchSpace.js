@@ -100,3 +100,15 @@ export function diverse(candidates, ranges, count) {
     }
   return selected;
 }
+
+// Preserve numerical leaders even when they are geometrically close together.
+export function selectFinalists(candidates, ranges, count) {
+  const sorted = [...candidates].sort(
+    (a, b) => b.metrics.Global - a.metrics.Global || a.id.localeCompare(b.id),
+  );
+  const selected = new Map();
+  for (const candidate of [...sorted.slice(0, count), ...diverse(sorted, ranges, count)]) {
+    selected.set(candidate.id, candidate);
+  }
+  return [...selected.values()];
+}

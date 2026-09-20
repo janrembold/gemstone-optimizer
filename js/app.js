@@ -158,7 +158,7 @@ function showOptical(result, stone) {
     `<div class="optical-grid"><div><h3>Energiebilanz · 100% einfallende Energie</h3>${energy.map(([l, v]) => `<div class="energy-row"><span>${l}</span><b>${fmt(v, 3)}%</b></div>`).join('')}<div class="energy-row"><span>Summe</span><b>${fmt(
       energy.reduce((s, [, v]) => s + v, 0),
       6,
-    )}%</b></div></div><div><h3>Tilt-Kurve · absoluter nützlicher Rücklauf</h3>${m.tiltCurve.map((t) => `<div class="tilt-row"><span>${t.angle}°</span><div class="tilt-track"><i style="width:${t.useful}%"></i></div><span>${fmt(t.useful, 1)}%</span></div>`).join('')}</div></div><p class="detail-foot">Spektrale Trennung: ${fmt(m.fire.meanSeparationDeg, 4)}° · Pfadgleiche Rücklaufenergie: ${fmt(m.fire.matchedEnergyPct)}% · Fire*: Energieanteil mit ≥ ${m.opticalSettings.fireResolution}° Trennung (${m.fire.wavelengths.join(' / ')} nm). ${m.fire.available ? 'Cauchy-Näherung bzw. hinterlegtes Sellmeier-Modell.' : 'Dispersion fehlt: nichtdispersiver Ersatz, Fire nicht aussagekräftig.'}<br>Monte-Carlo-Standardfehler Brilliance: ± ${fmt(f.standardError, 3)} Prozentpunkte (nur Stichprobe, keine Modellunsicherheit).<br>Minimum metric: ${fmt(m.minimumMetric)} · ${m.rayCount.toLocaleString('de-DE')} angenommene Spektral-/Tilt-Strahlen · Seed ${m.opticalSettings.seed} · ${result.verified ? 'Finale Verifikation' : 'Vorläufige Suchstichprobe'}<br>${report.fractional} Facetten benötigen gebrochene Gear-Indizes: Export erhält exakte Azimute; auf fester Zahnteilung ggf. Feineinstellung nötig.<br>* Fire und Global: vorläufige Bewertungsmodelle. Restenergie wird weder als Rücklauf noch als Leckage gezählt.</p>`;
+    )}%</b></div></div><div><h3>Tilt-Kurve · absoluter nützlicher Rücklauf</h3>${m.tiltCurve.map((t) => `<div class="tilt-row"><span>${t.angle}°</span><div class="tilt-track"><i style="width:${t.useful}%"></i></div><span>${fmt(t.useful, 1)}%</span></div>`).join('')}</div></div><p class="detail-foot">Spektrale Trennung: ${fmt(m.fire.meanSeparationDeg, 4)}° · Pfadgleiche Rücklaufenergie: ${fmt(m.fire.matchedEnergyPct)}% · Fire*: Energieanteil mit ≥ ${m.opticalSettings.fireResolution}° Trennung (${m.fire.wavelengths.join(' / ')} nm). ${m.fire.available ? 'Cauchy-Näherung bzw. hinterlegtes Sellmeier-Modell.' : 'Dispersion fehlt: nichtdispersiver Ersatz, Fire nicht aussagekräftig.'}<br>Monte-Carlo-Standardfehler Brilliance: ± ${fmt(f.standardError, 3)} Prozentpunkte (nur Stichprobe, keine Modellunsicherheit).<br>${result.screening ? `Suchschätzung Global ≈ ${fmt(result.screening.Global)} (${result.screening.opticalSettings.faceRays} Face-up-Strahlen) → verifiziert ${fmt(m.Global)} (${m.opticalSettings.faceRays} Face-up-Strahlen).` : ''}<br>Minimum metric: ${fmt(m.minimumMetric)} · ${m.rayCount.toLocaleString('de-DE')} angenommene Spektral-/Tilt-Strahlen · Seed ${m.opticalSettings.seed} · ${result.verified ? 'Einheitlicher hoher Census' : 'Vorläufige Suchstichprobe'}<br>${report.fractional} Facetten benötigen gebrochene Gear-Indizes: Export erhält exakte Azimute; auf fester Zahnteilung ggf. Feineinstellung nötig.<br>* Fire und Global: vorläufige Bewertungsmodelle. Restenergie wird weder als Rücklauf noch als Leckage gezählt.</p>`;
 }
 function renderLeaderboard() {
   if (!results.length) return;
@@ -208,9 +208,11 @@ function onProgress(p) {
   $('remaining').textContent = p.remaining.toLocaleString('de-DE');
   $('eta').textContent = time(p.eta);
   $('ray-tests').textContent = p.rayTests.toLocaleString('de-DE');
-  $('census-label').textContent = p.verified
-    ? 'VERIFIKATION · höherer Census'
-    : 'LIVE · Screening-Census';
+  $('census-label').textContent = `LIVE · verifiziert · ${p.verifiedCount} geprüft`;
+  const census = p.verificationSettings;
+  $('screening-best').textContent = p.screeningBest
+    ? `Suchschätzung: Global ≈ ${fmt(p.screeningBest.metrics.Global)} bei ${p.screeningSettings.faceRays} Face-up-Strahlen. Nur zur Vorauswahl; nicht mit der verifizierten Rangliste gleichsetzen.`
+    : 'Suchschätzungen dienen nur der Vorauswahl. Die Rangliste verwendet von Anfang an den höheren Census.';
   if (p.current)
     $('current-parameters').textContent =
       `Aktuell: Crown ${fmt(p.current.crown)}° / Pavilion ${fmt(p.current.pavilion)}° / Table ${fmt(p.current.table, 1)}% / Star ${fmt(p.current.star, 1)}% / Lower ${fmt(p.current.lower, 1)}% / Girdle ${fmt(p.current.girdle, 1)}%`;
@@ -218,12 +220,12 @@ function onProgress(p) {
   if (results.length) {
     const b = results[0].metrics;
     $('best').textContent =
-      `Best: Global ${fmt(b.Global)} · Brilliance ${fmt(b.Brilliance)} · Fire ${fmt(b.Fire)} · Tilt ${fmt(b.Tilt)} · Leak ${fmt(b.Leak)}`;
+      `Verifizierter Bestwert: Global ${fmt(b.Global)} · Brilliance ${fmt(b.Brilliance)} · Fire ${fmt(b.Fire)} · Tilt ${fmt(b.Tilt)} · Leak ${fmt(b.Leak)} · ${census.faceRays} / ${census.tiltRays} / ${census.spectralRays} Strahlen (Face-up / je Tilt / Spektraltripel)`;
     if (!selected || !results.some((r) => r.id === selected.id)) showStone(results[0]);
     else renderLeaderboard();
-  } else if (p.verified) {
+  } else {
     $('leaderboard').innerHTML =
-      '<div class="empty"><p>Finalisten werden neu berechnet. Screening-Scores werden nicht mit dem höheren Census verglichen.</p></div>';
+      '<div class="empty"><p>Erster Kandidat wird mit dem höheren Census geprüft. Hier erscheinen ausschließlich verifizierte Werte.</p></div>';
     $('best').textContent = 'Verifizierter Bestwert: ausstehend';
   }
 }
@@ -245,6 +247,9 @@ $('config-form').onsubmit = (e) => {
   $('status').textContent = 'OPTIMIZING';
   message('Berechnung läuft im Hintergrund.');
   $('progress').value = 0;
+  $('best').textContent = 'Verifizierter Bestwert: ausstehend';
+  $('screening-best').textContent = '';
+  $('census-label').textContent = 'Einheitliche Verifikation ab Start';
   runStarted = performance.now();
   pausedMs = 0;
   timer = setInterval(() => {
@@ -271,7 +276,9 @@ $('config-form').onsubmit = (e) => {
       $('save-run').disabled = false;
       $('census-label').textContent = 'FINAL · gleicher hoher Census';
       showStone(results[0]);
-      message('Alle Ergebnisse inklusive Reproduktionsdaten exportierbar.');
+      message(
+        'Fertig: derselbe Census wie in der Live-Rangliste. Suchschätzungen und Verifikation sind im Run JSON dokumentiert.',
+      );
       worker.terminate();
     } else if (data.type === 'error' || data.type === 'cancelled') {
       setActive(false);
