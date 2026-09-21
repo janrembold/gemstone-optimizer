@@ -19,8 +19,12 @@ export function exportASC(stone, material, gear = 96, result = null) {
       Math.abs(angle) < 1e-8
         ? gear
         : ((((Math.atan2(f.n[1], f.n[0]) / (2 * Math.PI)) * gear) % gear) + gear) % gear || gear;
-    const key = f.family + ':' + angle.toFixed(8) + ':' + f.d.toFixed(8);
-    if (!tiers.has(key)) tiers.set(key, { angle, d: f.d, family: f.family, indices: [] });
+    // A flat pavilion culet needs signed zero; toFixed alone drops that sign.
+    const angleText = Object.is(angle, -0) ? '-0.0000000000' : angle.toFixed(10);
+    // Group only at the precision actually written; nearby distinct distances
+    // (especially on non-round cuts) must not be merged at a coarser precision.
+    const key = f.family + ':' + angleText + ':' + f.d.toFixed(12);
+    if (!tiers.has(key)) tiers.set(key, { angleText, d: f.d, family: f.family, indices: [] });
     tiers.get(key).indices.push(index);
   }
   const lines = [
@@ -28,15 +32,15 @@ export function exportASC(stone, material, gear = 96, result = null) {
     `g ${gear} 0.0`,
     `y ${stone.symmetry} y`,
     `I ${material.ri.toFixed(8)}`,
-    'H Round Brilliant - Gem Cut Optimizer',
+    `H ${stone.cutName || 'Gemstone'} - Gem Cut Optimizer`,
     `H Material: ${material.name}`,
     `H ${result?.id || 'Geometry export'} - independent simulation`,
-    'H Radius = 1; fractional indices require adjustable indexing',
+    'H Plane coordinates preserved; fractional indices require adjustable indexing',
   ];
   for (const t of tiers.values()) {
     const indices = t.indices.sort((a, b) => a - b).map((x) => x.toFixed(8));
     lines.push(
-      `a ${t.angle.toFixed(10)} ${t.d.toFixed(12)} ${indices[0]} n ${names[t.family] || t.family} ${indices.slice(1).join(' ')}`.trim(),
+      `a ${t.angleText} ${t.d.toFixed(12)} ${indices[0]} n ${names[t.family] || t.family} ${indices.slice(1).join(' ')}`.trim(),
     );
   }
   const m = result?.metrics;

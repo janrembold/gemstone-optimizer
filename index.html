@@ -20,9 +20,7 @@
         <div>
           <p class="eyebrow">DESIGN / SIMULATE / VERIFY</p>
           <h1>Form folgt Licht.</h1>
-          <p>
-            Round-Brilliant-Geometrien entwickeln und mit deterministischem Raytracing vergleichen.
-          </p>
+          <p>Facettengeometrien entwickeln und mit deterministischem Raytracing vergleichen.</p>
         </div>
         <span class="badge">● Lokale Berechnung · Web Worker</span>
       </div>
@@ -30,14 +28,16 @@
         <aside class="panel configuration">
           <div class="panel-heading">
             <h2>01 <span>Konfiguration</span></h2>
-            <span class="small">8-fach symmetrisch</span>
+            <span class="small" id="cut-symmetry">8-fach symmetrisch</span>
           </div>
           <form id="config-form">
             <label
               >Schlifffamilie<select id="cut">
                 <option value="round-brilliant">Round Brilliant</option>
+                <option value="bl-m5">BL-M5</option>
               </select></label
             >
+            <p id="cut-note" class="notice" hidden></p>
             <div class="inline-facts">
               <span>Rundiste <b>Ja</b></span
               ><span>Culet <b>Punkt</b></span
@@ -198,7 +198,8 @@
               </div>
               <div id="viewer">
                 <div class="viewer-label">
-                  ROUND BRILLIANT<span>Orbit · Drag / Zoom · Scroll</span>
+                  <b id="viewer-cut-name">ROUND BRILLIANT</b
+                  ><span>Orbit · Drag / Zoom · Scroll</span>
                 </div>
               </div>
               <div class="viewer-tools">

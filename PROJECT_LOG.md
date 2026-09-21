@@ -122,3 +122,19 @@ Validation: analytic normal-incidence slab including surface reflection, zero ob
 `npm run validate` regenerated the convergence report and two identical complete Fast runs under the new model. The earlier exhaustive audit remains historical evidence for the previous scoring version, not a current optimum claim.
 
 Final checks: 41 Node tests and all 5 Playwright browser tests passed, including the reduced-grid Exhaustive live/final invariant and offline `file://` workflow. Production/standalone build, formatting and diff checks passed. Desktop screenshot reviewed: the seventh metric fits the ranking cards and the observer report renders correctly.
+
+## 2026-09-20 — BL-M5 family from supplied ASC, with flat table
+
+User requested a second family from `BL-M5.asc`, then explicitly requested the table be set to exactly 0°. Implemented `bl-m5-flat-table-1`: 24 pavilion + 24 girdle + 24 c1 + 12 c2 + 1 table facets, preserving all non-table ASC planes and the table's normal distance. The source table tilt 0.000994° is deliberately removed. The original file is untouched; a numerical fixture, source SHA-256, corrected ASC export and full explanation are in `docs/BL-M5.md`.
+
+Added three angular parameters and four explicit plane distances; distances are fixed by default and angles search ±0.2°. No Round Brilliant percentage parameters are reused for this family. The selector, preview metadata, ranking, progress, export names and JSON import now follow the selected cut. Changing families clears stale results. Worker and offline bundles use the same registry. Round Brilliant optical results and result IDs remain unchanged.
+
+Tests compare all source planes with the one documented exception, check exactly horizontal table vertices, 30° rotational and mirror symmetry, 85-facet topology throughout the default grid, original/perturbed ASC roundtrip, optical energy and deterministic optimization. `scripts/validate-bl-m5.js` records reference convergence and a full Fast run in `docs/bl-m5-results.json`, with an importable config and all result reproduction settings. A first strict normal-vector assertion exposed JavaScript negative zero; the table now uses the literal normal `[0, 0, 1]`.
+
+## 2026-09-21 — Cross-chat ASC export audit
+
+At the user's request, read the latest turns of “ASC Fehler analysieren” and inspected its available Round Brilliant and T105 attachments. The latest verified lesson supersedes the earlier wrong symmetry theory: keep the correct symmetry and full index lists; remove `G` cutting-instruction comments for the demonstrated compatibility issue. Confirmed the field grammar against the official GemCad manual, p. 21.
+
+The app's export already has no `G` instruction tails/lines, uses one complete line per tier, emits each first index once and preserves cut-specific symmetry. Added direct structural export regressions, including `n G` / numeric labels, a synthetic oval and fractional angles. Corrected coarse tier-grouping precision (8 decimals -> actual serialized angle/distance precision) and preservation of negative-zero pavilion culet angles. Neither is a reinterpretation or redesign of the supplied BL-M5. Native Gem Cut Studio import is not claimed. See `docs/ASC-REFERENCES.md` for scope and evidence.
+
+Final validation for BL-M5 and the export audit: **51 Node tests and 7 Playwright tests passed** after the export fixes. Both families work through the production server and direct offline `file://` entry point; BL-M5 export and cross-family JSON import are covered. The full build regenerates the committed standalone bundle. Desktop BL-M5 screenshot reviewed, formatting/diff checks passed, and the removed branding was not reintroduced.

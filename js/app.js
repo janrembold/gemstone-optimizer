@@ -7,8 +7,8 @@ import { canonical } from './reproducibility.js';
 import { scoringVersion } from './optics/metrics.js';
 import { StoneRenderer } from './render/stoneRenderer.js';
 import OptimizerWorker from './optimizer/worker.js?worker&inline';
-const $ = (id) => document.getElementById(id),
-  cut = getCut('round-brilliant');
+const $ = (id) => document.getElementById(id);
+let cut = getCut('round-brilliant');
 let worker = null,
   paused = false,
   active = false,
@@ -39,12 +39,54 @@ $('material').innerHTML = materials
     (m) => `<option value="${m.id}" ${m.id === 'moissanite' ? 'selected' : ''}>${m.name}</option>`,
   )
   .join('');
-$('ranges').innerHTML = cut.parameters
-  .map(
-    (p) =>
-      `<tr><td>${p.label}</td>${['min', 'max', 'coarse', 'fine'].map((k) => `<td><input aria-label="${p.key} ${k}" data-key="${p.key}" data-field="${k}" type="number" step="any" value="${p[k]}" required></td>`).join('')}</tr>`,
-  )
-  .join('');
+function renderRanges() {
+  $('ranges').innerHTML = cut.parameters
+    .map(
+      (p) =>
+        `<tr><td>${p.label}</td>${['min', 'max', 'coarse', 'fine'].map((k) => `<td><input aria-label="${p.key} ${k}" data-key="${p.key}" data-field="${k}" type="number" step="any" value="${p[k]}" required></td>`).join('')}</tr>`,
+    )
+    .join('');
+
+  $('cut-symmetry').textContent =
+    `${cut.approximateSymmetry ? '≈ ' : ''}${cut.symmetry}-fach symmetrisch`;
+  $('cut-note').textContent = cut.description || '';
+  $('cut-note').hidden = !cut.description;
+  $('viewer-cut-name').textContent = cut.name.toUpperCase();
+}
+function changeCut(id) {
+  cut = getCut(id);
+  $('cut').value = id;
+  results = [];
+  selected = null;
+  completedRun = null;
+  $('save-run').disabled = true;
+  $('leaderboard').innerHTML =
+    '<div class="empty"><p>Neue Schlifffamilie: Optimierung starten.</p></div>';
+  $('status').textContent = 'BEREIT';
+  $('phase').textContent = 'Bereit · Ausgangsdesign in der Vorschau';
+  $('best').textContent = '';
+  $('screening-best').textContent = '';
+  $('current-parameters').textContent = '';
+  $('progress').value = 0;
+  $('percent').textContent = '0%';
+  $('census-label').textContent = 'noch keine Ergebnisse';
+  for (const id of ['evaluated', 'remaining', 'ray-tests']) $(id).textContent = '0';
+  for (const id of ['elapsed', 'eta']) $(id).textContent = '—';
+  renderRanges();
+  estimate();
+  showStone(null);
+}
+function parameterSummary(p) {
+  return cut.parameters
+    .filter(({ key }) => !key.endsWith('Distance'))
+    .map(({ key, label }) => `${label}: ${fmt(p[key], cut.id === 'bl-m5' ? 6 : 2)}`)
+    .join(' · ');
+}
+$('cut').onchange = () => {
+  changeCut($('cut').value);
+  message('Schlifffamilie gewechselt. Die Vorschau zeigt das Ausgangsdesign.');
+};
+renderRanges();
 function updateMaterial(reset = true) {
   const m = materials.find((m) => m.id === $('material').value);
   if (reset) $('ri').value = m.ri ?? '';
@@ -119,10 +161,16 @@ function showStone(result) {
   const data = [
     ['Material', m.name],
     ['RI', fmt(m.ri, 4)],
-    ['Facetten', `${stone.derived.facetCount} (57 + 16)`],
-    ['Tafel', fmt(stone.parameters.table, 1) + '%'],
+    [
+      'Facetten',
+      `${stone.derived.facetCount} (${stone.derived.opticalFacetCount} + ${stone.derived.facetCount - stone.derived.opticalFacetCount})`,
+    ],
+    ['Tafel', fmt(stone.parameters.table ?? stone.derived.tableWidth, 1) + '%'],
     ['Krone', fmt(stone.parameters.crown) + '°'],
     ['Pavillon', fmt(stone.parameters.pavilion) + '°'],
+    ...(stone.parameters.crown2 != null
+      ? [['Krone c2', fmt(stone.parameters.crown2, 6) + '°']]
+      : []),
     ['Tiefe', fmt(stone.derived.totalDepth) + '%'],
     ['Global*', result ? fmt(result.metrics.Global) : '—'],
     ['Gear', gear],
@@ -168,7 +216,7 @@ function renderLeaderboard() {
       card.className = 'candidate' + (selected?.id === r.id ? ' selected' : '');
       card.tabIndex = 0;
       card.setAttribute('aria-label', `Variante ${i + 1}, Global ${fmt(r.metrics.Global)}`);
-      card.innerHTML = `<div class="candidate-head"><h3>0${i + 1} / Round Brilliant</h3><strong><small>GLOBAL*</small>${fmt(r.metrics.Global)}</strong></div><div class="metrics-mini">${['Brilliance', 'Fire', 'Tilt', 'Scintillation', 'Symmetry', 'Leak', 'HeadShadow'].map((k, i) => `<span>${['BRILL.', 'FIRE*', 'TILT', 'SCINT.', 'SYMM.', 'LEAK ↓', 'HEAD ↓'][i]}<b>${fmt(r.metrics[k], 1)}</b></span>`).join('')}</div><div class="parameters-line">C ${fmt(r.parameters.crown)}° · P ${fmt(r.parameters.pavilion)}° · T ${fmt(r.parameters.table, 1)}%<br>Tiefe ${fmt(r.derived.totalDepth)}% · ${r.derived.facetCount} Facetten</div><div class="candidate-actions"><button class="view">View</button><button class="export">Export ASC ↓</button></div>`;
+      card.innerHTML = `<div class="candidate-head"><h3>0${i + 1} / ${cut.name}</h3><strong><small>GLOBAL*</small>${fmt(r.metrics.Global)}</strong></div><div class="metrics-mini">${['Brilliance', 'Fire', 'Tilt', 'Scintillation', 'Symmetry', 'Leak', 'HeadShadow'].map((k, i) => `<span>${['BRILL.', 'FIRE*', 'TILT', 'SCINT.', 'SYMM.', 'LEAK ↓', 'HEAD ↓'][i]}<b>${fmt(r.metrics[k], 1)}</b></span>`).join('')}</div><div class="parameters-line">${parameterSummary(r.parameters)}<br>Tiefe ${fmt(r.derived.totalDepth)}% · ${r.derived.facetCount} Facetten</div><div class="candidate-actions"><button class="view">View</button><button class="export">Export ASC ↓</button></div>`;
       card.onclick = (e) => {
         if (e.target.closest('.export')) downloadASC(r);
         else showStone(r);
@@ -196,7 +244,7 @@ function downloadASC(r) {
     m = r.reproduction.material;
   download(
     exportASC(stone, m, r.reproduction.gear, r),
-    `RoundBrilliant_${m.name.replace(/[^a-zA-Z0-9]/g, '_')}_${fmt(r.metrics.Global)}.asc`,
+    `${cut.name.replace(/[^a-zA-Z0-9-]/g, '')}_${m.name.replace(/[^a-zA-Z0-9]/g, '_')}_${fmt(r.metrics.Global)}.asc`,
     'text/plain',
   );
 }
@@ -213,9 +261,7 @@ function onProgress(p) {
   $('screening-best').textContent = p.screeningBest
     ? `Suchschätzung: Global ≈ ${fmt(p.screeningBest.metrics.Global)} bei ${p.screeningSettings.faceRays} Face-up-Strahlen. Nur zur Vorauswahl; nicht mit der verifizierten Rangliste gleichsetzen.`
     : 'Suchschätzungen dienen nur der Vorauswahl. Die Rangliste verwendet von Anfang an den höheren Census.';
-  if (p.current)
-    $('current-parameters').textContent =
-      `Aktuell: Crown ${fmt(p.current.crown)}° / Pavilion ${fmt(p.current.pavilion)}° / Table ${fmt(p.current.table, 1)}% / Star ${fmt(p.current.star, 1)}% / Lower ${fmt(p.current.lower, 1)}% / Girdle ${fmt(p.current.girdle, 1)}%`;
+  if (p.current) $('current-parameters').textContent = `Aktuell: ${parameterSummary(p.current)}`;
   results = p.leaderboard;
   if (results.length) {
     const b = results[0].metrics;
@@ -336,13 +382,14 @@ $('import-file').onchange = async (e) => {
     const run = JSON.parse(await file.text()),
       c = run.config;
     validateConfig(c);
-    if (run.results?.some((r) => r.reproduction?.topologyVersion !== cut.version))
+    if (run.results?.some((r) => r.reproduction?.topologyVersion !== getCut(c.cutId).version))
       throw new Error('Run uses a different topology version');
     const known = materials.find((m) => m.id === c.material.id);
     if (!known) throw new Error('Unknown material');
     const rebuilt = materialModel(c.material.id, c.material.ri);
     if (canonical(rebuilt) !== canonical(c.material))
       throw new Error('Material model differs from this app version');
+    changeCut(c.cutId);
     $('material').value = c.material.id;
     $('ri').value = c.material.ri;
     updateMaterial(false);
@@ -354,6 +401,7 @@ $('import-file').onchange = async (e) => {
         document.querySelector(`[data-key=${r.key}][data-field=${k}]`).value = r[k];
     for (const k of ['faceRays', 'tiltRays', 'spectralRays']) $(k).value = c.verification[k];
     estimate();
+    showStone(null);
     message(
       run.results?.some((r) => r.metrics?.scoringVersion !== scoringVersion)
         ? 'Ältere Bewertung: Konfiguration geladen. Optimize Cut berechnet alle Werte mit Head Shadow neu.'

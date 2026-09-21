@@ -85,6 +85,7 @@ export function generate(p = defaults) {
   const solid = buildPolyhedron(planes);
   return {
     ...solid,
+    cutName: 'Round Brilliant',
     parameters: { ...p },
     topologyVersion: 'round-brilliant-1',
     symmetry: 8,
