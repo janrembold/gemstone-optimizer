@@ -223,7 +223,7 @@ export async function optimize(config, { progress = () => {}, checkpoint = async
     centers = diverse(pool, ranges, preset.regions);
   }
   phase = 4;
-  phaseLabel = 'Angular precision · 0.01°';
+  phaseLabel = cut.precisionLabel || 'Angular precision · 0.01°';
   emit(true);
   for (const center of centers)
     for (const p of neighbors(center.parameters, ranges, cut.precisionKeys)) await screen(p);

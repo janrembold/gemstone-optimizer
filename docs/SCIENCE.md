@@ -134,3 +134,7 @@ A 10-percentage-point reduction in HeadShadow improves Global by 0.5 points at o
 ## Additional cut family: BL-M5
 
 [BL-M5](BL-M5.md) uses the supplied ASC half-spaces, correcting only the table to exactly 0° as requested. Its 85-facet geometry, own angle/distance parameters and `bl-m5-flat-table-1` topology are independent of Round Brilliant. The same energy-conserving tracing and Head Shadow model evaluate both families; no source material name or external score supplies an optical result.
+
+## Leonardo image-derived approximation
+
+[Leonardo](LEONARDO-ANALYSE.md) is an explicit inverse-image fit, not recovered original cutting data. Fivefold rotation is enforced; mirror symmetry is not asserted. The user authorized a constructed girdle. Every simulated surface is planar and validated, but that does not establish fidelity to the manufacturer original. The fixed 80-sided girdle affects the existing facet-count scintillation proxy and thus limits cross-family interpretation of Global. The fitting assumptions, numerical edge residuals and weight sensitivity are recorded in the analysis.

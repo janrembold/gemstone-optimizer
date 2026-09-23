@@ -56,6 +56,7 @@ function renderRanges() {
 function changeCut(id) {
   cut = getCut(id);
   $('cut').value = id;
+  $('gear').value = cut.defaultGear || 96;
   results = [];
   selected = null;
   completedRun = null;
@@ -156,6 +157,7 @@ function showStone(result) {
     },
     gear = result?.reproduction.gear || Number($('gear').value);
   viewer?.setStone(stone);
+  $('gear-fact').textContent = gear;
   $('selected-id').textContent = result?.id || 'VORSCHAU';
   $('export-selected').disabled = !result;
   const data = [
@@ -166,12 +168,31 @@ function showStone(result) {
       `${stone.derived.facetCount} (${stone.derived.opticalFacetCount} + ${stone.derived.facetCount - stone.derived.opticalFacetCount})`,
     ],
     ['Tafel', fmt(stone.parameters.table ?? stone.derived.tableWidth, 1) + '%'],
-    ['Krone', fmt(stone.parameters.crown) + '°'],
-    ['Pavillon', fmt(stone.parameters.pavilion) + '°'],
+    [
+      'Krone',
+      stone.derived.crownAngles
+        ? stone.derived.crownAngles.map((a) => fmt(a, 2) + '°').join(' / ')
+        : fmt(stone.parameters.crown) + '°',
+    ],
+    [
+      'Pavillon',
+      stone.derived.pavilionAngles
+        ? stone.derived.pavilionAngles.map((a) => fmt(a, 2) + '°').join(' / ')
+        : fmt(stone.parameters.pavilion) + '°',
+    ],
     ...(stone.parameters.crown2 != null
       ? [['Krone c2', fmt(stone.parameters.crown2, 6) + '°']]
       : []),
     ['Tiefe', fmt(stone.derived.totalDepth) + '%'],
+    ...(stone.approximation
+      ? [
+          ['Modell', 'Bildbasierter Näherungsentwurf'],
+          [
+            'Rundiste min / max',
+            fmt(stone.derived.girdleMin) + ' / ' + fmt(stone.derived.girdleMax) + '%',
+          ],
+        ]
+      : []),
     ['Global*', result ? fmt(result.metrics.Global) : '—'],
     ['Gear', gear],
   ];

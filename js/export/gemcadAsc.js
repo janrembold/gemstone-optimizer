@@ -30,9 +30,9 @@ export function exportASC(stone, material, gear = 96, result = null) {
   const lines = [
     'GemCad 5.0',
     `g ${gear} 0.0`,
-    `y ${stone.symmetry} y`,
+    `y ${stone.symmetry} ${stone.symmetryMirror === false ? 'n' : 'y'}`,
     `I ${material.ri.toFixed(8)}`,
-    `H ${stone.cutName || 'Gemstone'} - Gem Cut Optimizer`,
+    `H ${stone.cutName || 'Gemstone'} - ${stone.approximation ? 'IMAGE-FIT approximate geometry' : 'Gem Cut Optimizer'}`,
     `H Material: ${material.name}`,
     `H ${result?.id || 'Geometry export'} - independent simulation`,
     'H Plane coordinates preserved; fractional indices require adjustable indexing',

@@ -56,6 +56,7 @@ All candidates in the live and final rankings use the same material, seed, ray c
 - [SCIENCE.md](docs/SCIENCE.md): mathematical definitions, metric denominators, sources and approximations.
 - [VALIDATION.md](docs/VALIDATION.md): actual convergence, parameter perturbation, bounce residual, repeated-seed and optimizer results.
 - [EXHAUSTIVE-VALIDATION.md](docs/EXHAUSTIVE-VALIDATION.md): full-profile score-history audit and the screening/verification fix.
+- [LEONARDO-ANALYSE.md](docs/LEONARDO-ANALYSE.md): image-derived Leonardo prototype, fitted planes, constructed girdle and uncertainty.
 - [BL-M5.md](docs/BL-M5.md): extracted 85-facet family, flat-table correction, parameters and validation.
 - [ASC-REFERENCES.md](docs/ASC-REFERENCES.md): validation against the four supplied ASC references.
 - [example-run.json](docs/example-run.json): full default Moissanite run. In the app choose **Run laden**, select this file and click **Optimize Cut** to recalculate it.
@@ -70,7 +71,7 @@ No external reference score is used as an optimization target or a calibration c
 - Semantic `family`, optical `region` (`crown`, `pavilion`, `girdle`), ordered polygon vertex indices and area.
 - Shared vertex array, packed plane coefficients, derived dimensions and topology version.
 
-Geometry, tracing, scoring and rendering consume that common solid. Optics uses `region`, not Round Brilliant family names. Precision refinement uses the cut's `precisionKeys`. The UI exposes Round Brilliant and BL-M5 with separate parameter schemas; a future cut needs its registry entry and selector option. Generic tier export falls back to family names.
+Geometry, tracing, scoring and rendering consume that common solid. Optics uses `region`, not Round Brilliant family names. Precision refinement uses the cut's `precisionKeys`. The UI exposes Round Brilliant, BL-M5 and the explicitly approximate Leonardo image-fit with separate parameter schemas; a future cut needs its registry entry and selector option. Generic tier export falls back to family names.
 
 The current intersection engine supports **convex** cuts. A nonconvex design requires a different intersection implementation behind that interface, not reuse of the convex exit-plane assumption. The cut plugin must guarantee its declared exact rotational symmetry; the current ideal-geometry symmetry score assumes this contract.
 
