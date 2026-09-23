@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { generate as round } from '../js/cuts/roundBrilliant.js';
+import { getCut } from '../js/cuts/cutDefinition.js';
+const round = () => getCut('round-brilliant').generate();
 import { generate as blM5 } from '../js/cuts/blM5.js';
 import { buildPolyhedron, validateSolid } from '../js/geometry/meshBuilder.js';
 import { norm, sub } from '../js/geometry/planes.js';
@@ -37,7 +38,9 @@ test('ASC compatibility: full indices once, one line per tier, no G comments, co
   for (const stone of [round(), blM5()]) {
     const text = exportASC(stone, material),
       tiers = inspect(text, 96);
-    assert.ok(text.includes(`y ${stone.symmetry} y\r\n`));
+    assert.ok(
+      text.includes(`y ${stone.symmetry} ${stone.symmetryMirror === false ? 'n' : 'y'}\r\n`),
+    );
     assert.equal(
       tiers.reduce((n, t) => n + t.indices.length, 0),
       stone.facets.length,
@@ -86,8 +89,7 @@ test('ASC export preserves close distinct distances instead of grouping at eight
     [1.000000001, 1.000000004],
   );
 });
-test('ASC export does not round genuine fractional angles or rescale an oval solid', () => {
-  // Synthetic oval regression, not a reconstruction of the other chat's design.
+test('ASC export rejects fractional indices instead of silently rounding or rescaling', () => {
   const source = round();
   const planes = source.facets.map((f) => {
     const n = [f.n[0] / 2, f.n[1], f.n[2]],
@@ -95,13 +97,7 @@ test('ASC export does not round genuine fractional angles or rescale an oval sol
     return { ...f, n: n.map((v) => v / length), d: f.d / length };
   });
   const oval = { ...buildPolyhedron(planes), symmetry: 2, cutName: 'Oval regression' };
-  const text = exportASC(oval, material, 64),
-    tiers = inspect(text, 64),
-    restored = buildPolyhedron(parseASC(text).facets);
-  assert.ok(text.includes('y 2 y'));
-  assert.ok(tiers.some((t) => Math.abs(t.angle * 100 - Math.round(t.angle * 100)) > 1e-3));
-  for (const v of oval.vertices) assert.ok(restored.vertices.some((w) => norm(sub(v, w)) < 1e-8));
-  assert.ok(Math.abs(validateSolid(oval).volume - validateSolid(restored).volume) < 1e-8);
+  assert.throws(() => exportASC(oval, material, 64), /Gebrochener Index/);
 });
 
 test('ASC export retains the negative-zero sign of a horizontal pavilion culet', () => {

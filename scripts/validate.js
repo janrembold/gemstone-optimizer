@@ -1,7 +1,9 @@
+import { getCut } from '../js/cuts/cutDefinition.js';
+const generate = getCut('round-brilliant').generate;
 import { format } from 'prettier';
 import { writeFileSync, readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { generate, defaults, parameters } from '../js/cuts/roundBrilliant.js';
+import { defaults, parameters } from '../js/cuts/roundBrilliant.js';
 import { validateSolid, buildPolyhedron } from '../js/geometry/meshBuilder.js';
 import { parseASC } from '../js/export/gemcadAsc.js';
 import { materialModel } from '../js/materials.js';

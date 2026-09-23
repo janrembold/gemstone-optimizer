@@ -1,3 +1,4 @@
+import { getCut } from '../js/cuts/cutDefinition.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -45,7 +46,7 @@ test('Default Leonardo grid is valid and exports conserve planes without asserti
     assert.equal(s.facets.length, 136);
     assert.ok(s.derived.girdleMin > 0);
   }
-  const s = generate(),
+  const s = getCut('leonardo').generate(),
     asc = exportASC(s, materialModel('moissanite'), 80);
   assert.match(asc, /y 5 n/);
   assert.match(asc, /IMAGE-FIT approximate geometry/);
@@ -89,7 +90,7 @@ test('Leonardo runs its own scaling refinement and never drops the verified lead
   assert.equal(run.results.length, 5);
   for (let i = 1; i < leaders.length; i++) assert.ok(leaders[i] >= leaders[i - 1]);
   for (const r of run.results) {
-    assert.equal(r.reproduction.topologyVersion, 'leonardo-image-fit-1');
+    assert.equal(r.reproduction.topologyVersion, getCut('leonardo').version);
     assert.equal(r.derived.approximation, true);
   }
 });

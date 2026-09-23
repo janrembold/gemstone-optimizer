@@ -1,5 +1,7 @@
+import { getCut } from '../js/cuts/cutDefinition.js';
+const generate = getCut('round-brilliant').generate;
 import { readFileSync, writeFileSync } from 'node:fs';
-import { generate } from '../js/cuts/roundBrilliant.js';
+
 import { evaluate, scoringVersion } from '../js/optics/metrics.js';
 const previous = JSON.parse(readFileSync('docs/exhaustive-results.json'));
 const reference = previous.results[0].parameters;

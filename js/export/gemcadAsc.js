@@ -1,6 +1,9 @@
 import { deg } from '../geometry/planes.js';
 const names = {
   table: 'T',
+  pavilionBase: 'P1',
+  pavilionMiddle: 'P2',
+  pavilionTip: 'P3',
   bezel: 'c1',
   star: 'c2',
   upperGirdle: 'c3',
@@ -11,6 +14,8 @@ const names = {
 export function exportASC(stone, material, gear = 96, result = null) {
   if (!Number.isInteger(gear) || gear < 8 || gear % 8)
     throw new Error('Gear must be a positive multiple of 8');
+  if (stone.gear != null && stone.gear !== gear)
+    throw new Error('Export-Indexrad weicht von der simulierten Geometrie ab.');
   const tiers = new Map();
   for (const f of stone.facets) {
     const angle =
@@ -19,13 +24,17 @@ export function exportASC(stone, material, gear = 96, result = null) {
       Math.abs(angle) < 1e-8
         ? gear
         : ((((Math.atan2(f.n[1], f.n[0]) / (2 * Math.PI)) * gear) % gear) + gear) % gear || gear;
+    if (Math.abs(index - Math.round(index)) > 1e-6)
+      throw new Error(
+        'Gebrochener Index: Geometrie vor der Simulation auf ganzzahlige Positionen setzen.',
+      );
     // A flat pavilion culet needs signed zero; toFixed alone drops that sign.
     const angleText = Object.is(angle, -0) ? '-0.0000000000' : angle.toFixed(10);
     // Group only at the precision actually written; nearby distinct distances
     // (especially on non-round cuts) must not be merged at a coarser precision.
     const key = f.family + ':' + angleText + ':' + f.d.toFixed(12);
     if (!tiers.has(key)) tiers.set(key, { angleText, d: f.d, family: f.family, indices: [] });
-    tiers.get(key).indices.push(index);
+    tiers.get(key).indices.push(Math.round(index));
   }
   const lines = [
     'GemCad 5.0',
@@ -35,10 +44,10 @@ export function exportASC(stone, material, gear = 96, result = null) {
     `H ${stone.cutName || 'Gemstone'} - ${stone.approximation ? 'IMAGE-FIT approximate geometry' : 'Gem Cut Optimizer'}`,
     `H Material: ${material.name}`,
     `H ${result?.id || 'Geometry export'} - independent simulation`,
-    'H Plane coordinates preserved; fractional indices require adjustable indexing',
+    'H Integer gear positions; same facet planes as simulation',
   ];
   for (const t of tiers.values()) {
-    const indices = t.indices.sort((a, b) => a - b).map((x) => x.toFixed(8));
+    const indices = t.indices.sort((a, b) => a - b).map((x) => String(x));
     lines.push(
       `a ${t.angleText} ${t.d.toFixed(12)} ${indices[0]} n ${names[t.family] || t.family} ${indices.slice(1).join(' ')}`.trim(),
     );
@@ -53,7 +62,7 @@ export function exportASC(stone, material, gear = 96, result = null) {
       `F Tilt ${m.Tilt.toFixed(4)} Leak ${m.Leak.toFixed(4)} HeadShadow ${m.HeadShadow?.toFixed(4) ?? 'n/a'} (${m.opticalSettings?.headShadowAngle ?? 0}deg half-angle, ${100 * (m.opticalSettings?.headShadowWeight ?? 0)}pct weight); ${result.verified ? 'verified census' : 'screening census'}`,
     );
   }
-  lines.push('F Exact planes; gear indices are not rounded to whole teeth.');
+  lines.push('F Integer indices verified before export; no geometry rounding at export.');
   return lines.join('\r\n') + '\r\n';
 }
 export function parseASC(text) {

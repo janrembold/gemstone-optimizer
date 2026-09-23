@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { parseASC } from '../../js/export/gemcadAsc.js';
 import { test, expect } from '@playwright/test';
 test('Moissanite workflow, live progress, pause/resume, full verification, geometry and ASC/JSON export', async ({
   page,
@@ -39,6 +41,11 @@ test('Moissanite workflow, live progress, pause/resume, full verification, geome
   ]);
   expect(asc.suggestedFilename()).toMatch(/RoundBrilliant_Moissanite_.*\.asc/);
   await asc.saveAs('test-results/selected.asc');
+  expect(
+    parseASC(readFileSync('test-results/selected.asc', 'utf8')).facets.every((f) =>
+      Number.isInteger(f.index),
+    ),
+  ).toBe(true);
   const [json] = await Promise.all([
     page.waitForEvent('download'),
     page.locator('#save-run').click(),

@@ -1,6 +1,8 @@
+import { getCut } from '../js/cuts/cutDefinition.js';
+const generate = getCut('bl-m5').generate;
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { generate, parameters, blM5 } from '../js/cuts/blM5.js';
+import { parameters, blM5 } from '../js/cuts/blM5.js';
 import { parseASC, exportASC } from '../js/export/gemcadAsc.js';
 import { buildPolyhedron, validateSolid } from '../js/geometry/meshBuilder.js';
 import { materialModel } from '../js/materials.js';

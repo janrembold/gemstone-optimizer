@@ -33,7 +33,7 @@ for (const offline of [false, true])
     const jsonPath = await json.path(),
       run = JSON.parse(readFileSync(jsonPath, 'utf8'));
     expect(run.config.cutId).toBe('bl-m5');
-    expect(run.results[0].reproduction.topologyVersion).toBe('bl-m5-flat-table-1');
+    expect(run.results[0].reproduction.topologyVersion).toBe('bl-m5-flat-table-1-integer-orbits-1');
     const [asc] = await Promise.all([
       page.waitForEvent('download'),
       page.locator('#export-selected').click(),
@@ -41,6 +41,7 @@ for (const offline of [false, true])
     expect(asc.suggestedFilename()).toMatch(/^BL-M5_Moissanite_/);
     const parsed = parseASC(readFileSync(await asc.path(), 'utf8'));
     expect(parsed.facets).toHaveLength(85);
+    expect(parsed.facets.every((f) => Number.isInteger(f.index))).toBe(true);
     for (const f of generate(run.results[0].parameters).facets)
       expect(
         parsed.facets.some((g) => norm(sub(f.n, g.n)) < 1e-9 && Math.abs(f.d - g.d) < 1e-9),

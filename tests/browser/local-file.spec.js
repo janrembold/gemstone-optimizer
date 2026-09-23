@@ -1,3 +1,4 @@
+import { parseASC } from '../../js/export/gemcadAsc.js';
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -40,6 +41,9 @@ test('Direct index.html opens offline with materials, Blob-worker optimization a
     page.locator('#export-selected').click(),
   ]);
   expect(readFileSync(await asc.path(), 'utf8')).toMatch(/^GemCad 5\.0/);
+  expect(
+    parseASC(readFileSync(await asc.path(), 'utf8')).facets.every((f) => Number.isInteger(f.index)),
+  ).toBe(true);
   await page.screenshot({ path: 'test-results/direct-file.png', fullPage: true });
   expect(errors).toEqual([]);
 });

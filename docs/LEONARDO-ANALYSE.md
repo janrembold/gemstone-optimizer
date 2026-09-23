@@ -1,5 +1,7 @@
 # Leonardo – Bildanalyse und Rekonstruktionsgrenzen
 
+**Aktueller Stand:** Die App verwendet seit der Indexkorrektur eine ganzzahlige Ableitung dieses Fits. Die nachfolgenden Fitwinkel, Bildresiduen und Herstellungsgrenzen beschreiben die ursprüngliche kontinuierliche Rekonstruktion. Für die aktuellen simulierten/exportierten Ebenen gilt [INTEGER-INDICES.md](INTEGER-INDICES.md); Referenz-ASC und numerische Referenzauswertung wurden neu erzeugt.
+
 Stand: 23.09.2026. Gewünschte neue Schlifffamilie: **Leonardo**.
 
 **Ergebnis nach der Nutzerpräzisierung:** Die App enthält jetzt **Leonardo · Bildentwurf**. Auf Wunsch wird die Rundiste passend zu den rekonstruierbaren Kronen-/Pavillonflächen konstruiert. Der Entwurf hat 21 Kronen- und 35 Pavillonfacetten aus einem numerischen Bild-Fit sowie 80 ausdrücklich angenommene Rundistenfacetten. Es ist eine geschlossene, berechenbare Geometrie, aber keine bestätigte Rekonstruktion der Original-Schnittdaten. Winkel und Ansätze sind aus Linienlage und geschätzten Höhen abgeleitet. Die frühere Beurteilung „nicht eindeutig rekonstruierbar“ bleibt für das Original richtig; sie verhindert den nun ausdrücklich gewünschten Näherungsentwurf nicht.

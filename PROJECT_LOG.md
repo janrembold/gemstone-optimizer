@@ -156,3 +156,41 @@ Added Leonardo to the cut registry and UI, with 80 explicitly constructed vertic
 Generated a reference ASC, vector projections and reference optical report. Images remain unchanged. The earlier no-configuration assessment above records the intermediate state before authorization; the final app now includes the Leonardo image-fit.
 
 Final checks: 56 Node tests and all 9 browser tests passed. After the angle-list layout adjustment, both Leonardo browser cases were re-run successfully online and offline. Re-running the final fit script reproduced the stored plane data and diagnostics exactly. Production and standalone builds, formatting and diff checks passed. The Leonardo desktop screenshot was reviewed and reconstructed vector views opened for inspection.
+
+## 2026-09-23 — Leo JR Edition mit pavillongebundener Rundiste
+
+- Nutzerauftrag: eigener runder Schliff aus den Leonardo-Bildern; möglichst genaue Krone und Pavillon, Rundiste exakt nach Pavillongeometrie.
+- Eigenständige Familie `leo-jr`, Topologie `leo-jr-pavilion-rim-1`; vorhandener Leonardo bleibt reproduzierbar. Gemeinsamer Ebenenfit erhält die 21 Kronen- und 35 Pavillonfacetten, Tafel 0°.
+- Neue Rundiste aus analytischen Schnittpunkten aktiver Pavillonkanten mit dem Einheitskreis: 30 Pflichtanschlüsse, zusätzliche Kreissehnen mit maximal 4,5° Winkelabstand, insgesamt 100 vertikale Flächen. Jede Unterkante hat genau eine Pavillonfläche als Eigentümer. Kein unabhängiges gleichmäßiges Rundistenraster.
+- Voller Bildradius statt Apothem 0,98. Abstand standardmäßig 7 % Bezugsradius, um lokale Schließung zu vermeiden; Standardrundiste 0,4808–3,8968 % Durchmesser.
+- Neue Referenz-ASC, drei Vektoransichten und numerisches Protokoll; Herleitung, Annahmen und Grenzen in `docs/LEO-JR-EDITION.md`. Optische Genauigkeit und Originalwinkel werden nicht aus reiner geometrischer Gültigkeit abgeleitet.
+- Zusätzliche Tests prüfen aktive Bildregionen, Pavillonanschlüsse, Einzelflächenzuordnung jeder Unterkante, Rundheit, sämtliche Standardparameter, Symmetrie, ASC-Ebenen/Volumen, Energiebilanz und monotone Optimierung. HTTP- und Offline-Browsertests ergänzen die Auswahl und den Export.
+- Abschluss: 62 Node-Tests und alle 11 Playwright-Browsertests bestanden; Produktions- und Standalone-Build erfolgreich. HTTP-Vorschau als Screenshot geprüft. Erneuter Fit direkt aus dem gelieferten Diagramm stimmt vollständig mit dem gespeicherten Fit überein. Formatprüfung und `git diff --check` bestanden. Kein realer Gem-Cut-Studio-Import behauptet.
+
+## 2026-09-23 — Ganzzahlige Indexpositionen in jeder App-Berechnung
+
+- Benutzerreferenz `Leonardo_Moissanite_72.93_v1.asc` und GCS-Anzeige geprüft: 55 echte Bruchindizes aus freien Ebenenazimuten, kein bloßes Anzeigeproblem.
+- Gemeinsame registrierte Geometriepipeline für alle vier Familien: zyklisch geordnete, getrennte ganzzahlige Positionen je Region und Symmetriesektor; benachbarte Zähne gemeinsam geprüft, Facettenneigungen erhalten, Ebenen durch ihre bisherigen Polygonmittelpunkte gedreht. Alle Kandidaten werden vor Raytracing neu aufgebaut und validiert.
+- Leo JR: neue Rundiste mit ganzzahligen Normalen und linear gelösten Abständen. Beim 80er-Rad 80 statt 100 Rundistenflächen; Unterkanten weiterhin exakt einer Pavillonfacette zugeordnet. Alte freie Konstruktion bleibt ausschließlich Referenzbasis.
+- Optimierung, Verifikation, Vorschau und Export verwenden dasselbe Indexrad. Neue Geometrie-/Suchversionen; alte Run-Einstellungen können neu gerechnet werden, Scores werden nicht übernommen. ASC lehnt gebrochene Positionen und falsches Export-Rad ab.
+- Korrigierte Benutzer-ASC und neu simulierte Ergebnisse in `docs/Leonardo-Moissanite-integer80.asc` und `docs/integer-index-reference.json`: 136 Facetten, Neigungen erhalten, 55 → 0 Bruchindizes; neuer Global 72,667836. Originaldatei unverändert. Kein tatsächlicher GCS-Import behauptet.
+- Verfahren, Einschränkungen und Reproduktion in `docs/INTEGER-INDICES.md`. Aktuelle Referenz-ASC/SVG/JSON und Default-Optimierungsreferenz neu berechnet; historische Bildfit-Fehler nicht als Genauigkeit der quantisierten Geometrie ausgegeben.
+- Abschlussprüfung: 67 Node-Tests, 11 Browser-Tests, einschließlich Exhaustive und aller ganzzahligen ASC-Downloads, bestanden. `npm run validate` mit zweifach identischem vollständigem Fast-Run erfolgreich; Produktions- und Standalone-Build erfolgreich. Keine neuen Git-Schreibaktionen nach der zuvor abgelehnten Commit-Freigabe.
+
+## 2026-09-23 — Leo JR mit exakt 20 Rundistenfacetten
+
+- Nutzer fordert exakt 20 zum Pavillon passende Rundistenflächen mit ganzzahligen Indexpositionen. Die vorherige Konstruktion erzeugte eine Fläche pro Zahn (80 beim Standardrad) und erfüllte diese neue Zählvorgabe nicht.
+- Ersetzt durch vier fünfzählige äußere Pavillongruppen (`pavilion0`, `pavilion1`, `pavilion2`, `pavilion5`): ihre Ebenen werden bei `z = -separation/200` geschnitten und vertikal extrudiert. Azimut und Abstand jeder Rundistenebene folgen direkt der zugeordneten Pavillonfläche. Keine zusätzliche Unterteilung.
+- Ganzzahlige Standardpositionen 5/8/12/15 + 16er-Wiederholungen; stets 20 Rundistenfacetten auch auf Rad 160. Krone 21, Pavillon 35, Gesamtzahl 76. Die bisherigen optischen Ebenen bleiben unverändert; nur ihre Außenbegrenzung ändert sich.
+- Jede Rundistenfläche hat eine geprüfte gemeinsame Kante mit ihrer Quell-Pavillonfacette. Weitere Pavillonfacetten dürfen an derselben ebenen Rundistenfläche enden; mehrere Abschnitte ihrer Unterkante sind keine zusätzlichen Flächen.
+- Neue Topologie `leo-jr-pavilion-rim20-2-integer-orbits-1`; Referenz-ASC, Ansichten, Geometrie und Optik neu berechnet. Aktuelle Anleitung und konstruktive Grenzen in `docs/LEO-JR-EDITION.md`; historische Protokolle bleiben als Verlauf erhalten.
+- Abschluss: alle 67 Node-Tests bestanden; zusätzlich beide Leo-JR-Browsertests (HTTP und direkt geöffnete Offline-Datei) bestanden. Tests lesen die ASC-Downloads ein und zählen genau 20 Rundistenflächen mit ganzzahligen Indizes. Produktions-/Standalone-Build, Formatprüfung und `git diff --check` erfolgreich. Tests decken alle 18 Standardkombinationen auf Indexrad 80 und 160 sowie verifizierte Optimierungsergebnisse ab. Keine Git-Schreibaktion nach der zuvor abgelehnten Freigabe.
+
+## 2026-09-23 — Leo JR: exakt drei Pavillonwinkel und regelmäßige Basis
+
+- Nutzerkorrektur: Pavillonbasis gleichmäßig verteilt auf einer gemeinsamen Neigung; insgesamt exakt drei Winkelgruppen. Bisheriger freier Bildfit hatte sieben Pavillongruppen und individuelle Azimutzuordnung. Diese Konstruktion wird für Leo JR ersetzt.
+- Neue native ganzzahlige Geometrie mit P1/P2/P3 = 20/10/5 Facetten. P1 und Rundiste haben dieselben 20 Positionen in 18°-Schritten (Rad 80: 4,8,…,80), gemeinsame Abstände und eine vollständige gemeinsame Kante pro Fläche. P2/P3 bleiben innen. Krone 21 und Tafel 0° erhalten.
+- Drei separate Gruppenparameter ersetzen `pavilionScale`; feste Indizes und gekoppelte Abstände können von der Optimierung nicht in unabhängige Einzelwinkel zerlegt werden. Winkelordnung, Gruppengrößen, positive geschlossene Geometrie und Rundistenanschlüsse werden vor jeder Simulation geprüft. Neue Topologie `leo-jr-three-tier-3-integer-orbits-1`.
+- Übergangsradien 0,7125980416 und 0,4650335547 aus den Referenz-Ebenenschnitten hergeleitet; korrekte 9°-Projektion zwischen Zwischen- und Spitzenrichtung berücksichtigt. Startneigungen 40,4/40,15/37,9° bleiben geschätzte Rekonstruktionswerte, keine gemessenen Originaldaten.
+- Neue Datei `leonardo-view.png` hat exakt den bereits im Fit gespeicherten Quellenhash. ASC enthält tatsächlich nur drei Pavillonzeilen P1/P2/P3. Referenz-ASC, Vektoransichten und optische Auswertung aktualisiert; Herleitung in `docs/LEO-JR-EDITION.md` vollständig überarbeitet.
+- Abschluss: 67 Node-Tests bestanden. Die neue 20/10/5-Struktur wurde über 162 Standardkombinationen auf Rad 40, 80 und 160 geprüft (486 Geometrien); zusätzlich ASC-Gruppen, Ebenengleichheit, optische Energiebilanz und verifizierte Optimierungsergebnisse kontrolliert. HTTP- und Offline-Browsertests bestanden; zusätzlicher HTTP-Durchlauf liefert geprüfte Pavillon-/Seitenansichten. Produktions-/Standalone-Build, Formatprüfung und Diff-Prüfung erfolgreich. Keine Git-Schreibaktion nach der zuvor abgelehnten Freigabe.

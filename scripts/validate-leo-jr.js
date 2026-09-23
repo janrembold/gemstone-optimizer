@@ -1,11 +1,11 @@
 import { getCut } from '../js/cuts/cutDefinition.js';
 import { writeFileSync } from 'node:fs';
-import { defaults } from '../js/cuts/leonardo.js';
+import { defaults, tierCrossings } from '../js/cuts/leoJR.js';
 import { validateSolid } from '../js/geometry/meshBuilder.js';
 import { evaluate } from '../js/optics/metrics.js';
 import { exportASC } from '../js/export/gemcadAsc.js';
 import { materialModel } from '../js/materials.js';
-const stone = getCut('leonardo').generate();
+const stone = getCut('leo-jr').generate();
 const metrics = evaluate(stone, materialModel('moissanite'), {
   faceRays: 3200,
   tiltRays: 2200,
@@ -13,13 +13,14 @@ const metrics = evaluate(stone, materialModel('moissanite'), {
   fullTilt: true,
 });
 writeFileSync(
-  'docs/leonardo-reference-results.json',
+  'docs/leo-jr-reference-results.json',
   JSON.stringify(
     {
       model: stone.topologyVersion,
       approximation: true,
       material: materialModel('moissanite'),
       parameters: defaults,
+      tierCrossings,
       geometry: { ...validateSolid(stone), ...stone.derived },
       metrics,
     },
@@ -28,16 +29,16 @@ writeFileSync(
   ) + '\n',
 );
 writeFileSync(
-  'docs/Leonardo-image-fit.asc',
+  'docs/Leo-JR-Edition.asc',
   exportASC(stone, materialModel('moissanite'), 80).replace(/\r\n/g, '\n'),
 );
 // Scientific vector projection of the constructed solid; no image generation or altered source image.
 let svg =
-  '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="450" viewBox="0 0 1200 450"><rect width="1200" height="450" fill="white"/><text x="20" y="28" font-family="sans-serif" font-size="18">Leonardo · IMAGE-FIT / constructed girdle · not original cutting data</text>';
+  '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="450" viewBox="0 0 1200 450"><rect width="1200" height="450" fill="white"/><text x="20" y="28" font-family="sans-serif" font-size="18">Leo JR Edition · image reconstruction / pavilion-aligned girdle · not original cutting data</text>';
 for (const [col, region, label] of [
   [0, 'crown', 'Crown: 21'],
-  [1, 'side', 'Profile: constructed girdle'],
-  [2, 'pavilion', 'Pavilion: 35'],
+  [1, 'side', 'Profile: 20 pavilion-derived girdle facets'],
+  [2, 'pavilion', 'Pavilion: P1 20 / P2 10 / P3 5'],
 ]) {
   svg += `<text x="${col * 400 + 20}" y="60" font-family="sans-serif" font-size="16">${label}</text>`;
   for (const f of stone.facets.filter((f) => region === 'side' || f.region === region)) {
@@ -51,7 +52,7 @@ for (const [col, region, label] of [
   }
 }
 svg += '</svg>';
-writeFileSync('docs/Leonardo-projections.svg', svg);
+writeFileSync('docs/Leo-JR-Edition-projections.svg', svg);
 console.log(
   JSON.stringify(
     { geometry: stone.derived, Global: metrics.Global, HeadShadow: metrics.HeadShadow },

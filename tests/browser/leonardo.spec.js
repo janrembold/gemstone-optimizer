@@ -1,3 +1,4 @@
+import { parseASC } from '../../js/export/gemcadAsc.js';
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
@@ -22,6 +23,7 @@ for (const offline of [false, true])
       page.locator('#export-selected').click(),
     ]);
     const asc = readFileSync(await download.path(), 'utf8');
+    expect(parseASC(asc).facets.every((f) => Number.isInteger(f.index))).toBe(true);
     expect(asc).toContain('y 5 n');
     expect(asc).toContain('IMAGE-FIT approximate geometry');
     await page.screenshot({

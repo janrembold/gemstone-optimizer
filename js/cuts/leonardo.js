@@ -22,6 +22,9 @@ export const parameters = [
   },
 ];
 export function generate(p = defaults) {
+  return generateFitted(p);
+}
+export function generateFitted(p, girdleFactory, metadata = {}) {
   for (const key of Object.keys(defaults))
     if (!Number.isFinite(p[key])) throw new Error(`Invalid ${key}`);
   if (
@@ -41,15 +44,17 @@ export function generate(p = defaults) {
       length = Math.hypot(...n);
     return { ...f, n: n.map((x) => x / length), d: (f.d + n[2] * shift) / length };
   });
-  // Explicit manufacturing approximation: 80 vertical facets, aligned to 5-fold sectors.
-  // Radius 0.98 clips the uncertain rim rather than changing fitted inner meetpoints.
-  for (let i = 0; i < 80; i++)
-    planes.push({
-      family: 'girdle',
-      region: 'girdle',
-      n: [Math.cos((i * Math.PI) / 40), Math.sin((i * Math.PI) / 40), 0],
-      d: 0.98,
-    });
+  if (girdleFactory) planes.push(...girdleFactory(planes.filter((f) => f.region === 'pavilion')));
+  else {
+    // Original Leonardo approximation retained for reproducibility.
+    for (let i = 0; i < 80; i++)
+      planes.push({
+        family: 'girdle',
+        region: 'girdle',
+        n: [Math.cos((i * Math.PI) / 40), Math.sin((i * Math.PI) / 40), 0],
+        d: 0.98,
+      });
+  }
   const solid = buildPolyhedron(planes);
   const radius = Math.max(...solid.vertices.map((v) => Math.hypot(v[0], v[1]))),
     diameter = 2 * radius;
@@ -85,6 +90,7 @@ export function generate(p = defaults) {
     symmetry: 5,
     symmetryMirror: false,
     approximation: true,
+    ...metadata,
     derived: {
       facetCount: solid.facets.length,
       opticalFacetCount: 56,

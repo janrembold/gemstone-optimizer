@@ -18,7 +18,7 @@ function samePlanes(a, b) {
     assert.ok(b.some((g) => norm(sub(f.n, g.n)) < 1e-10 && Math.abs(f.d - g.d) < 1e-10));
 }
 test('BL-M5 preserves all 84 non-table ASC planes and corrects only the table to exactly zero', () => {
-  assert.equal(getCut('bl-m5'), blM5);
+  assert.equal(getCut('bl-m5').id, blM5.id);
   const s = generate(),
     source = parseASC(fixture).facets,
     reference = buildPolyhedron(
@@ -113,7 +113,7 @@ test('BL-M5 optimizer uses its own parameter schema, topology and equal-census v
   for (let i = 1; i < leaders.length; i++) assert.ok(leaders[i] >= leaders[i - 1]);
   near(run.results[0].metrics.Global, leaders.at(-1));
   for (const r of run.results) {
-    assert.equal(r.reproduction.topologyVersion, blM5.version);
+    assert.equal(r.reproduction.topologyVersion, getCut('bl-m5').version);
     assert.equal(r.derived.facetCount, 85);
     assert.equal(r.verified, true);
   }

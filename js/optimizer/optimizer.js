@@ -1,3 +1,4 @@
+import { validateGear } from '../geometry/integerIndex.js';
 import { refractiveIndex, wavelengths } from '../optics/dispersion.js';
 import { getCut } from '../cuts/cutDefinition.js';
 import { evaluate, opticalDefaultsForRun } from './runEvaluation.js';
@@ -22,8 +23,13 @@ export function validateConfig(config) {
     )
   )
     throw new Error('Spectral RI must remain above 1 at every wavelength');
+  validateGear(config.gear, cut.symmetry);
   if (!Number.isInteger(config.gear) || config.gear < 8 || config.gear > 1000 || config.gear % 8)
     throw new Error('Gear must be a multiple of 8');
+  if (cut.id === 'leo-jr' && config.ranges?.some((r) => r.key === 'pavilionScale'))
+    throw new Error(
+      'Alte Leo-JR-Pavillonskalierung: bitte neue P1/P2/P3-Suchbereiche verwenden und neu optimieren.',
+    );
   if (
     !Array.isArray(config.ranges) ||
     config.ranges.length !== cut.parameters.length ||
@@ -59,7 +65,7 @@ export function validateConfig(config) {
     throw new Error('Seed must be an unsigned 32-bit integer');
   return { cut, preset };
 }
-export const searchVersion = 'verified-archive-2';
+export const searchVersion = 'verified-integer-archive-3';
 
 export async function optimize(config, { progress = () => {}, checkpoint = async () => {} } = {}) {
   const { cut, preset } = validateConfig(config);
@@ -150,7 +156,7 @@ export async function optimize(config, { progress = () => {}, checkpoint = async
     current = candidate.parameters;
     emit(true);
     await checkpoint();
-    const stone = cut.generate(candidate.parameters);
+    const stone = cut.generate(candidate.parameters, config.gear);
     const metrics = evaluate(stone, config.material, high);
     rayTests += metrics.rayTests;
     evaluated++;
@@ -182,7 +188,7 @@ export async function optimize(config, { progress = () => {}, checkpoint = async
     seen.add(key);
     let stone;
     try {
-      stone = cut.generate(parameters);
+      stone = cut.generate(parameters, config.gear);
     } catch {
       rejected++;
       emit();

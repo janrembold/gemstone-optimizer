@@ -150,7 +150,10 @@ function setActive(value) {
 }
 function showStone(result) {
   selected = result;
-  const stone = cut.generate(result?.parameters || cut.defaults),
+  const stone = cut.generate(
+      result?.parameters || cut.defaults,
+      result?.reproduction.gear || Number($('gear').value),
+    ),
     m = result?.reproduction.material || {
       name: materials.find((m) => m.id === $('material').value).name,
       ri: $('ri').value === '' ? NaN : Number($('ri').value),
@@ -227,7 +230,7 @@ function showOptical(result, stone) {
     `<div class="optical-grid"><div><h3>Energiebilanz · 100% einfallende Energie</h3>${energy.map(([l, v]) => `<div class="energy-row"><span>${l}</span><b>${fmt(v, 3)}%</b></div>`).join('')}<div class="energy-row"><span>Summe</span><b>${fmt(
       energy.reduce((s, [, v]) => s + v, 0),
       6,
-    )}%</b></div></div><div><h3>Tilt-Kurve · absoluter nützlicher Rücklauf</h3>${m.tiltCurve.map((t) => `<div class="tilt-row"><span>${t.angle}°</span><div class="tilt-track"><i style="width:${t.useful}%"></i></div><span>${fmt(t.useful, 1)}%</span></div>`).join('')}</div></div><p class="detail-foot">Face-up Head Shadow: ${fmt(m.HeadShadow)} Prozentpunkte ± ${fmt(m.headShadow.standardError, 3)} (Stichproben-SE), ${m.headShadow.halfAngle}° Halbwinkel. Gewicht: ${100 * m.opticalSettings.headShadowWeight}%. Gleichförmige obere Lichthemisphäre: ${fmt(m.headShadow.unobstructed)}% ohne Kopf → ${fmt(m.headShadow.visible)}% mit Kopf. Separates Beobachtermodell, kein zusätzlicher Posten der Energiebilanz.<br>Spektrale Trennung: ${fmt(m.fire.meanSeparationDeg, 4)}° · Pfadgleiche Rücklaufenergie: ${fmt(m.fire.matchedEnergyPct)}% · Fire*: Energieanteil mit ≥ ${m.opticalSettings.fireResolution}° Trennung (${m.fire.wavelengths.join(' / ')} nm). ${m.fire.available ? 'Cauchy-Näherung bzw. hinterlegtes Sellmeier-Modell.' : 'Dispersion fehlt: nichtdispersiver Ersatz, Fire nicht aussagekräftig.'}<br>Monte-Carlo-Standardfehler Brilliance: ± ${fmt(f.standardError, 3)} Prozentpunkte (nur Stichprobe, keine Modellunsicherheit).<br>${result.screening ? `Suchschätzung Global ≈ ${fmt(result.screening.Global)} (${result.screening.opticalSettings.faceRays} Face-up-Strahlen) → verifiziert ${fmt(m.Global)} (${m.opticalSettings.faceRays} Face-up-Strahlen).` : ''}<br>Minimum metric: ${fmt(m.minimumMetric)} · ${m.rayCount.toLocaleString('de-DE')} angenommene Spektral-/Tilt-Strahlen · Seed ${m.opticalSettings.seed} · ${result.verified ? 'Einheitlicher hoher Census' : 'Vorläufige Suchstichprobe'}<br>${report.fractional} Facetten benötigen gebrochene Gear-Indizes: Export erhält exakte Azimute; auf fester Zahnteilung ggf. Feineinstellung nötig.<br>* Fire und Global: vorläufige Bewertungsmodelle. Restenergie wird weder als Rücklauf noch als Leckage gezählt.</p>`;
+    )}%</b></div></div><div><h3>Tilt-Kurve · absoluter nützlicher Rücklauf</h3>${m.tiltCurve.map((t) => `<div class="tilt-row"><span>${t.angle}°</span><div class="tilt-track"><i style="width:${t.useful}%"></i></div><span>${fmt(t.useful, 1)}%</span></div>`).join('')}</div></div><p class="detail-foot">Face-up Head Shadow: ${fmt(m.HeadShadow)} Prozentpunkte ± ${fmt(m.headShadow.standardError, 3)} (Stichproben-SE), ${m.headShadow.halfAngle}° Halbwinkel. Gewicht: ${100 * m.opticalSettings.headShadowWeight}%. Gleichförmige obere Lichthemisphäre: ${fmt(m.headShadow.unobstructed)}% ohne Kopf → ${fmt(m.headShadow.visible)}% mit Kopf. Separates Beobachtermodell, kein zusätzlicher Posten der Energiebilanz.<br>Spektrale Trennung: ${fmt(m.fire.meanSeparationDeg, 4)}° · Pfadgleiche Rücklaufenergie: ${fmt(m.fire.matchedEnergyPct)}% · Fire*: Energieanteil mit ≥ ${m.opticalSettings.fireResolution}° Trennung (${m.fire.wavelengths.join(' / ')} nm). ${m.fire.available ? 'Cauchy-Näherung bzw. hinterlegtes Sellmeier-Modell.' : 'Dispersion fehlt: nichtdispersiver Ersatz, Fire nicht aussagekräftig.'}<br>Monte-Carlo-Standardfehler Brilliance: ± ${fmt(f.standardError, 3)} Prozentpunkte (nur Stichprobe, keine Modellunsicherheit).<br>${result.screening ? `Suchschätzung Global ≈ ${fmt(result.screening.Global)} (${result.screening.opticalSettings.faceRays} Face-up-Strahlen) → verifiziert ${fmt(m.Global)} (${m.opticalSettings.faceRays} Face-up-Strahlen).` : ''}<br>Minimum metric: ${fmt(m.minimumMetric)} · ${m.rayCount.toLocaleString('de-DE')} angenommene Spektral-/Tilt-Strahlen · Seed ${m.opticalSettings.seed} · ${result.verified ? 'Einheitlicher hoher Census' : 'Vorläufige Suchstichprobe'}<br>Ganzzahlige Indexpositionen: ${report.total - report.fractional}/${report.total} Facetten · simuliert und exportiert mit Indexrad ${result.reproduction.gear}.<br>* Fire und Global: vorläufige Bewertungsmodelle. Restenergie wird weder als Rücklauf noch als Leckage gezählt.</p>`;
 }
 function renderLeaderboard() {
   if (!results.length) return;
@@ -261,7 +264,7 @@ function download(text, name, type) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 function downloadASC(r) {
-  const stone = cut.generate(r.parameters),
+  const stone = cut.generate(r.parameters, r.reproduction.gear),
     m = r.reproduction.material;
   download(
     exportASC(stone, m, r.reproduction.gear, r),
@@ -389,6 +392,16 @@ $('ri').oninput = () => {
   estimate();
   if (!selected) showStone(null);
 };
+$('gear').onchange = () => {
+  if (!selected) {
+    try {
+      showStone(null);
+      message('Vorschau mit ganzzahligen Indexpositionen aktualisiert.');
+    } catch (error) {
+      message(error.message, true);
+    }
+  }
+};
 $('config-form').addEventListener('change', estimate);
 $('export-selected').onclick = () => {
   if (selected) downloadASC(selected);
@@ -403,8 +416,9 @@ $('import-file').onchange = async (e) => {
     const run = JSON.parse(await file.text()),
       c = run.config;
     validateConfig(c);
-    if (run.results?.some((r) => r.reproduction?.topologyVersion !== getCut(c.cutId).version))
-      throw new Error('Run uses a different topology version');
+    const changedGeometry = run.results?.some(
+      (r) => r.reproduction?.topologyVersion !== getCut(c.cutId).version,
+    );
     const known = materials.find((m) => m.id === c.material.id);
     if (!known) throw new Error('Unknown material');
     const rebuilt = materialModel(c.material.id, c.material.ri);
@@ -424,9 +438,11 @@ $('import-file').onchange = async (e) => {
     estimate();
     showStone(null);
     message(
-      run.results?.some((r) => r.metrics?.scoringVersion !== scoringVersion)
-        ? 'Ältere Bewertung: Konfiguration geladen. Optimize Cut berechnet alle Werte mit Head Shadow neu.'
-        : 'Konfiguration geladen. Optimize Cut berechnet den Run erneut.',
+      changedGeometry
+        ? 'Ältere Geometrie: Einstellungen geladen. Optimize Cut berechnet Geometrie und Werte mit ganzzahligen Indizes neu.'
+        : run.results?.some((r) => r.metrics?.scoringVersion !== scoringVersion)
+          ? 'Ältere Bewertung: Konfiguration geladen. Optimize Cut berechnet alle Werte mit Head Shadow neu.'
+          : 'Konfiguration geladen. Optimize Cut berechnet den Run erneut.',
     );
   } catch (error) {
     message('Import: ' + error.message, true);

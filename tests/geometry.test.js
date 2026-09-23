@@ -1,3 +1,4 @@
+import { getCut } from '../js/cuts/cutDefinition.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -69,12 +70,12 @@ test('Tolkowsky published primary proportions reproduce analytic depths', () => 
   near(s.derived.pavilionDepth, fixture.expectedPavilionDepthPct);
   near(s.derived.totalDepth, s.derived.crownHeight + s.derived.pavilionDepth + 3);
 });
-test('ASC roundtrip preserves all exact facet planes, including fractional indices', () => {
+test('ASC roundtrip preserves the simulated integer-index facet planes', () => {
   for (const params of [
     defaults,
     { ...defaults, crown: 33.41, pavilion: 40.92, star: 56, lower: 78 },
   ]) {
-    const s = generate(params),
+    const s = getCut('round-brilliant').generate(params),
       asc = exportASC(s, materialModel('moissanite')),
       parsed = parseASC(asc);
     assert.equal(parsed.gear, 96);
@@ -93,9 +94,10 @@ test('ASC handles negative-zero culet from historic reference structure', () => 
   assert.equal(s.facets[0].n[2], -1);
   assert.equal(s.facets[1].n[2], 1);
 });
-test('Gear is a representation and never changes optical geometry', () => {
-  const s = generate();
-  const a = parseASC(exportASC(s, materialModel('diamond'), 96)),
-    b = parseASC(exportASC(s, materialModel('diamond'), 120));
-  a.facets.forEach((p, i) => near(dot(p.n, b.facets[i].n), 1));
+test('Changing the gear requires rebuilding and resimulating the geometry', () => {
+  const cut = getCut('round-brilliant'),
+    a = cut.generate(defaults, 96),
+    b = cut.generate(defaults, 120);
+  assert.throws(() => exportASC(a, materialModel('diamond'), 120), /Indexrad/);
+  assert.ok(a.facets.some((f, i) => norm(sub(f.n, b.facets[i].n)) > 1e-5));
 });
